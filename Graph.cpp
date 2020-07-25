@@ -1,138 +1,195 @@
 #include "Graph.h"
 #include <iostream>
-#include <cassert>
-#include <stack>
-#include <unordered_set>
-#include <climits>
-#include <queue>
-#include <vector>
 
-#include "Graph.h"
 
-using namespace std;
+Graph::Graph(int vertices) {
 
-Graph::Graph()
+    listaAristasCosto = new list<pair<int, int>>[vertices];
+    listaAristasHoras = new list<pair<double,double>>[vertices];
+    this->INF=0;
+    this->vertices = vertices;
+
+}
+
+bool Graph::agregarArista(int origen, int destino,int costo, double horas){
+
+    listaAristasCosto[origen].push_back(make_pair(destino, costo));
+    listaAristasCosto[destino].push_back(make_pair(origen, costo));
+    listaAristasHoras[origen].push_back(make_pair(destino, horas));
+    listaAristasHoras[destino].push_back(make_pair(origen, horas));
+    this->INF += costo*10;
+    this->DINF += horas*5;
+
+}
+
+void Graph::encontrarSenderoMasBarato(int origen,int destino)
 {
-    for (int from = 0; from < MAX_VERTICES; from++)
+    // Create a set to store vertices that are being
+    // prerocessed
+    set< pair<int, int> > setds;
+
+    // Armo un vector con la distancia de todos los nodos
+    // y pongo la distancia como infinito
+    vector<int> dist(vertices, INF);
+    int parent[vertices];
+    parent[origen] = -1;
+
+
+    // Insert source itself in Set and initialize its
+    // distance as 0.
+    setds.insert(make_pair(0, origen));
+    dist[origen] = 0;
+
+    /* Looping till all shortest distance are finalized
+       then setds will become empty */
+    while (!setds.empty())
     {
-        for (int to = 0; to < MAX_VERTICES; to++)
+        // The first vertex in Set is the minimum distance
+        // vertex, extract it from set.
+        pair<int, int> tmp = *(setds.begin());
+        setds.erase(setds.begin());
+
+        // vertex label is stored in second of pair (it
+        // has to be done this way to keep the vertices
+        // sorted distance (distance must be first item
+        // in pair)
+        int u = tmp.second;
+
+        // 'i' is used to get all adjacent vertices of a vertex
+        list< pair<int, int> >::iterator i;
+        for (i = listaAristasCosto[u].begin(); i != listaAristasCosto[u].end(); ++i)
         {
-            matrizCosto[from][to] = MAXINT;
-            matrizHorasVuelo[from][to] = MAXINT;
+            // Get vertex label and weight of current adjacent
+            // of u.
+            int v = (*i).first;
+            int weight = (*i).second;
+
+            //  If there is shorter path to v through u.
+            if (dist[v] > dist[u] + weight)
+            {
+                /*  If distance of v is not INF then it must be in
+                    our set, so removing it and inserting again
+                    with updated less distance.
+                    Note : We extract only those vertices from Set
+                    for which distance is finalized. So for them,
+                    we would never reach here.  */
+                if (dist[v] != INF)
+                    setds.erase(setds.find(make_pair(dist[v], v)));
+
+                // Updating distance of v
+                dist[v] = dist[u] + weight;
+
+                parent[v] = u;
+
+                setds.insert(make_pair(dist[v], v));
+            }
         }
     }
 
-    numVertices = 0;
+
+
+    imprimirResultado(dist,parent,origen,destino);
+
 }
 
-bool Graph::AddVertex(string label)
+void Graph::encontrarSenderoMasRapido(int origen,int destino)
 {
-    if (numVertices == MAX_VERTICES)
-        return false;
-    else
-        labels[numVertices++] = label;
+    // Create a set to store vertices that are being
+    // prerocessed
+    set< pair<double, double> > setds;
 
-    return true;
+    // Armo un vector con la distancia de todos los nodos
+    // y pongo la distancia como infinito
+    vector<double> dist(vertices, DINF);
+
+    //Creamos el recorrido
+    int parent[vertices];
+    //Seteamos en -1 para demostrar que es el origen
+    parent[origen] = -1;
+
+    //Insertamos el origen en el set y lo ponemos como cero
+    setds.insert(make_pair(0, origen));
+    dist[origen] = 0;
+
+    /* Looping till all shortest distance are finalized
+       then setds will become empty */
+    while (!setds.empty())
+    {
+        // The first vertex in Set is the minimum distance
+        // vertex, extract it from set.
+        pair<double, double> tmp = *(setds.begin());
+        setds.erase(setds.begin());
+
+        // vertex label is stored in second of pair (it
+        // has to be done this way to keep the vertices
+        // sorted distance (distance must be first item
+        // in pair)
+        int u = tmp.second;
+
+        // 'i' is used to get all adjacent vertices of a vertex
+        list< pair<double, double> >::iterator i;
+        for (i = listaAristasHoras[u].begin(); i != listaAristasHoras[u].end(); ++i)
+        {
+            // Get vertex label and weight of current adjacent
+            // of u.
+            int v = (*i).first;
+            double weight = (*i).second;
+
+            //  If there is shorter path to v through u.
+            if (dist[v] > dist[u] + weight)
+            {
+                /*  If distance of v is not INF then it must be in
+                    our set, so removing it and inserting again
+                    with updated less distance.
+                    Note : We extract only those vertices from Set
+                    for which distance is finalized. So for them,
+                    we would never reach here.  */
+                if (dist[v] != DINF)
+                    setds.erase(setds.find(make_pair(dist[v], v)));
+
+                // Updating distance of v
+                dist[v] = dist[u] + weight;
+
+                parent[v] = u;
+
+                setds.insert(make_pair(dist[v], v));
+            }
+        }
+    }
+
+    imprimirResultadoHoras(dist[destino],parent,origen,destino);
+
 }
 
-void Graph::AddEdge(string from, string to, int costo,double horasVuelo)
+void Graph::imprimirRecorrido(int parent[], int j)
 {
-    int fromIndex = FindIndex(from);
-    int toIndex = FindIndex(to);
 
-    if (fromIndex == -1 || toIndex == -1){
-
-        cout << "No existe" << endl;
+    // Base Case : If j is source
+    if (parent[j] == - 1)
         return;
 
-    }
+    imprimirRecorrido(parent, parent[j]);
 
-
-    matrizCosto[fromIndex][toIndex] = costo;
-    matrizHorasVuelo[fromIndex][toIndex] = horasVuelo;
-
-}
-
-int Graph::FindIndex(const string & label)
-{
-    for (int i = 0; i < numVertices; i++)
-    {
-        if (labels[i] == label)
-            return i;
-    }
-
-    return -1;
-}
-
-void Graph::PrintGraphCosto()
-{
-    cout << "\t";
-    for (int i = 0; i < numVertices; i++)
-    {
-        cout << labels[i] << "\t";
-    }
-    cout << endl;
-
-    for (int from = 0; from < numVertices; from++)
-    {
-        cout << labels[from];
-        for (int to = 0; to < numVertices; to++)
-        {
-            if (matrizCosto[from][to] != MAXINT)
-                cout << "\t"<<matrizCosto[from][to];
-            else
-                cout << "\t ";
-        }
-        cout << endl;
-    }
-
-
-    cout << endl;
-}
-
-void Graph::PrintGraphHorasVuelo()
-{
-    cout << "\t";
-    for (int i = 0; i < numVertices; i++)
-    {
-        cout << labels[i] << "\t";
-    }
-    cout << endl;
-
-    for (int from = 0; from < numVertices; from++)
-    {
-        cout << labels[from];
-        for (int to = 0; to < numVertices; to++)
-        {
-            if (matrizHorasVuelo[from][to] != MAXINT)
-                cout << "\t"<<matrizHorasVuelo[from][to];
-            else
-                cout << "\t ";
-        }
-        cout << endl;
-    }
-
-
-    cout << endl;
+    printf("%d ", j);
 }
 
 
-int Graph::GetCosto(int sourceIndex, int targetIndex)
+int Graph::imprimirResultado(vector<int> dist,int parent[],int origen,int destino)
 {
-    if (matrizCosto[sourceIndex][targetIndex] == MAXINT) {
-        return MAXINT;
-    }
-    int costo = matrizCosto[sourceIndex][targetIndex];
-    return costo;
+    printf("\nVertice\t Distancia\tSendero");
+    printf("\n%d -> %d \t %d\t\t%d ",
+           origen, destino, dist[destino], origen);
+    imprimirRecorrido(parent,destino);
 
 }
 
-double Graph::getHorasVuelos(int sourceIndex, int targetIndex)
+int Graph::imprimirResultadoHoras(double dist,int parent[],int origen,int destino)
 {
-    if (matrizHorasVuelo[sourceIndex][targetIndex] == MAXINT) {
-        return MAXINT;
-    }
-    double horasVuelo = matrizHorasVuelo[sourceIndex][targetIndex];
-    return horasVuelo;
+
+    printf("\nVertice\t Distancia\tSendero");
+    printf("\n%d -> %d \t %f\t%d ",
+           origen, destino, dist, origen);
+
+    imprimirRecorrido(parent,destino);
 
 }
