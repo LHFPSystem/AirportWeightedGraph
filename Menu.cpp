@@ -1,7 +1,14 @@
+//
+// Created by LHF on 25/07/2020.
+//
 #include "Menu.h"
-#include "Lista.h"
-#include <iostream>
+#include "Graph.h"
 
+using namespace  std;
+
+Menu::Menu(Graph& grafo) {
+    this->vuelos = &grafo;
+}
 void Menu::mostrarMenu(){
 
     cout << "\n\t1. Consultar por un aeropuerto en particular.\n";
@@ -12,7 +19,7 @@ void Menu::mostrarMenu(){
     cout << "\t6. Buscar vuelo mas rapido\n";
     cout << "\t7. Buscar vuelo mas barato\n";
     cout << "\t8. Salir\n";
-    cout << "\tIngrese el numero de la opcion que desea seleccionar: ";
+    cout << "\tIngrese el numero de la opcion que desea seleccionar: \n";
     cin >> opcion;
 }
 
@@ -52,12 +59,12 @@ bool Menu::selectorDeOpciones() {
             break;
         }
         case '6': {
-            cout << "FUNCION DE BUSCAR EL VUELO MAS RAPIDO";
+            buscarVueloMasRapido();
             estado = true;
             break;
         }
         case '7': {
-            cout << "FUNCION DE BUSCAR EL VUELO MAS BARATO";
+            buscarVueloMasBarato();
             estado = true;
             break;
         }
@@ -74,3 +81,25 @@ bool Menu::selectorDeOpciones() {
     }
     return estado;
 }
+
+void Menu::buscarVueloMasRapido(){
+    int origen, destino;
+    cout << "Ingrese el origen del vuelo: " << endl;
+    cin >> origen;
+    cout << "Ingrese el destino del vuelo: " << endl;
+    cin >> destino;
+    cout << "HASHEANDO NOMBRES A NUMEROS";
+    this->vuelos->encontrarSenderoMasRapido(origen,destino);
+
+}
+
+void Menu::buscarVueloMasBarato(){
+    int origen, destino;
+    cout << "Ingrese el origen del vuelo: " << endl;
+    cin >> origen;
+    cout << "Ingrese el destino del vuelo: " << endl;
+    cin >> destino;
+    cout << "HASHEANDO NOMBRES A NUMEROS";
+    this->vuelos->encontrarSenderoMasBarato(origen,destino);
+
+};

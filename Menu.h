@@ -1,23 +1,22 @@
-#ifndef TP_FINAL_MENU_H
-#define TP_FINAL_MENU_H
-using namespace std;
+#ifndef DIJKSTRA_MENU_H
+#define DIJKSTRA_MENU_H
+
+#include "Graph.h"
 
 class Menu{
-
 private:
-
     char opcion;
+    Graph *vuelos;
 
 public:
-
-    //Mostrar las opciones que el usuario puede elegir
-    //Pre-Condicion: -
-    //Post-Condicion: Imprime por pantalla las decisiones que tiene el usuario
+    Menu(Graph& grafo);
     void mostrarMenu();
-
-    //Procesa la opcion del usuario
-    //Pre-Condicion: -
-    //Post-Condicion: Procesa la opcion invocando las funciones correspondientes
     bool selectorDeOpciones();
+    void buscarVueloMasRapido();
+    void buscarVueloMasBarato();
+
 };
-#endif //TP_FINAL_MENU_H
+
+
+#endif //DIJKSTRA_MENU_H
+
