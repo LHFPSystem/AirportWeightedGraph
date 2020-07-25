@@ -1,4 +1,4 @@
-#include "aeropuerto.h"
+#include "Aeropuerto.h"
 
 Aeropuerto::Aeropuerto(){
 	iata="";
