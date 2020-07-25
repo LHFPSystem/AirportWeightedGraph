@@ -29,11 +29,5 @@ int main(){
     while(menu.selectorDeOpciones()){
         menu.mostrarMenu();
     }
-
-
-    g.encontrarSenderoMasBarato(1,5);
-    g.encontrarSenderoMasRapido(1,8);
-
-
     return 0;
 }
