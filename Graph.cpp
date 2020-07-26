@@ -25,25 +25,25 @@ void Graph::agregarArista(int origen, int destino,int costo, double horas){
 void Graph::encontrarSenderoMasBarato(int origen,int destino)
 {
     //Creamos un set para procesar los vertices.
-    set< pair<int, int> > setds;
+    set< pair<int, int> > setDistancia;
 
     // Armo un vector con la distancia de todos los nodos
     // y pongo la distancia como infinito
-    vector<int> dist(vertices, INF);
-    int parent[vertices];
-    parent[origen] = -1;
+    vector<int> distancias(vertices, INF);
+    int sendero[vertices];
+    sendero[origen] = -1;
 
 
     // Agregamos el comienzo en el set y seteamos la distancia como cero.
-    setds.insert(make_pair(0, origen));
-    dist[origen] = 0;
+    setDistancia.insert(make_pair(0, origen));
+    distancias[origen] = 0;
 
     // Buscamos las distancias de todos los vertices hasta que el set quede vacio.
-    while (!setds.empty())
+    while (!setDistancia.empty())
     {
         // Borramos el primer vertice del set ya que es la distancia mas corta.
-        pair<int, int> tmp = *(setds.begin());
-        setds.erase(setds.begin());
+        pair<int, int> tmp = *(setDistancia.begin());
+        setDistancia.erase(setDistancia.begin());
 
         int u = tmp.second;
 
@@ -56,50 +56,50 @@ void Graph::encontrarSenderoMasBarato(int origen,int destino)
             int weight = (*i).second;
 
             //  si hay una arista mas corta de u a v.
-            if (dist[v] > dist[u] + weight)
+            if (distancias[v] > distancias[u] + weight)
             {
                 // Si la distancia no es infinito, ya fue procesada por nuestro proceso, asi que la quitamos del set
-                if (dist[v] != INF)
-                    setds.erase(setds.find(make_pair(dist[v], v)));
+                if (distancias[v] != INF)
+                    setDistancia.erase(setDistancia.find(make_pair(distancias[v], v)));
 
                 // Agregamos la nueva distancia
-                dist[v] = dist[u] + weight;
+                distancias[v] = distancias[u] + weight;
 
-                parent[v] = u;
+                sendero[v] = u;
 
-                setds.insert(make_pair(dist[v], v));
+                setDistancia.insert(make_pair(distancias[v], v));
             }
         }
     }
 
-    imprimirResultado(dist,parent,origen,destino);
+    imprimirResultado(distancias,sendero,origen,destino);
 
 }
 
 void Graph::encontrarSenderoMasRapido(int origen,int destino)
 {
     //Creamos un set para procesar los vertices.
-    set< pair<double, double> > setds;
+    set< pair<double, double> > setDistancia;
 
     // Armo un vector con la distancia de todos los nodos
     // y pongo la distancia como infinito
-    vector<double> dist(vertices, DINF);
+    vector<double> distancias(vertices, DINF);
 
     //Creamos el recorrido
-    int parent[vertices];
+    int sendero[vertices];
     //Seteamos en -1 para demostrar que es el origen
-    parent[origen] = -1;
+    sendero[origen] = -1;
 
     //Insertamos el origen en el set y lo ponemos como cero
-    setds.insert(make_pair(0, origen));
-    dist[origen] = 0;
+    setDistancia.insert(make_pair(0, origen));
+    distancias[origen] = 0;
 
     // Buscamos las distancias de todos los vertices hasta que el set quede vacio.
-    while (!setds.empty())
+    while (!setDistancia.empty())
     {
         // Borramos el primer vertice del set ya que es la distancia mas corta.
-        pair<double, double> tmp = *(setds.begin());
-        setds.erase(setds.begin());
+        pair<double, double> tmp = *(setDistancia.begin());
+        setDistancia.erase(setDistancia.begin());
 
         int u = tmp.second;
 
@@ -112,23 +112,23 @@ void Graph::encontrarSenderoMasRapido(int origen,int destino)
             double weight = (*i).second;
 
             //  si hay una arista mas corta de u a v.
-            if (dist[v] > dist[u] + weight)
+            if (distancias[v] > distancias[u] + weight)
             {
                 // Si la distancia no es infinito, ya fue procesada por nuestro proceso, asi que la quitamos del set
-                if (dist[v] != DINF)
-                    setds.erase(setds.find(make_pair(dist[v], v)));
+                if (distancias[v] != DINF)
+                    setDistancia.erase(setDistancia.find(make_pair(distancias[v], v)));
 
                 // Agregamos la nueva distancia
-                dist[v] = dist[u] + weight;
+                distancias[v] = distancias[u] + weight;
 
-                parent[v] = u;
+                sendero[v] = u;
 
-                setds.insert(make_pair(dist[v], v));
+                setDistancia.insert(make_pair(distancias[v], v));
             }
         }
     }
 
-    imprimirResultadoHoras(dist[destino],parent,origen,destino);
+    imprimirResultadoHoras(distancias[destino],sendero,origen,destino);
 
 }
 
