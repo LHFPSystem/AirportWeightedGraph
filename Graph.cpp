@@ -11,7 +11,7 @@ Graph::Graph(int vertices) {
 
 }
 
-bool Graph::agregarArista(int origen, int destino,int costo, double horas){
+void Graph::agregarArista(int origen, int destino,int costo, double horas){
 
     listaAristasCosto[origen].push_back(make_pair(destino, costo));
     listaAristasCosto[destino].push_back(make_pair(origen, costo));
@@ -24,8 +24,7 @@ bool Graph::agregarArista(int origen, int destino,int costo, double horas){
 
 void Graph::encontrarSenderoMasBarato(int origen,int destino)
 {
-    // Create a set to store vertices that are being
-    // prerocessed
+    //Creamos un set para procesar los vertices.
     set< pair<int, int> > setds;
 
     // Armo un vector con la distancia de todos los nodos
@@ -35,48 +34,35 @@ void Graph::encontrarSenderoMasBarato(int origen,int destino)
     parent[origen] = -1;
 
 
-    // Insert source itself in Set and initialize its
-    // distance as 0.
+    // Agregamos el comienzo en el set y seteamos la distancia como cero.
     setds.insert(make_pair(0, origen));
     dist[origen] = 0;
 
-    /* Looping till all shortest distance are finalized
-       then setds will become empty */
+    // Buscamos las distancias de todos los vertices hasta que el set quede vacio.
     while (!setds.empty())
     {
-        // The first vertex in Set is the minimum distance
-        // vertex, extract it from set.
+        // Borramos el primer vertice del set ya que es la distancia mas corta.
         pair<int, int> tmp = *(setds.begin());
         setds.erase(setds.begin());
 
-        // vertex label is stored in second of pair (it
-        // has to be done this way to keep the vertices
-        // sorted distance (distance must be first item
-        // in pair)
         int u = tmp.second;
 
-        // 'i' is used to get all adjacent vertices of a vertex
+        //Con i obtenemos todos los vertices adyacentes
         list< pair<int, int> >::iterator i;
         for (i = listaAristasCosto[u].begin(); i != listaAristasCosto[u].end(); ++i)
         {
-            // Get vertex label and weight of current adjacent
-            // of u.
+            //Obtenemos nombre del vertice y su costo
             int v = (*i).first;
             int weight = (*i).second;
 
-            //  If there is shorter path to v through u.
+            //  si hay una arista mas corta de u a v.
             if (dist[v] > dist[u] + weight)
             {
-                /*  If distance of v is not INF then it must be in
-                    our set, so removing it and inserting again
-                    with updated less distance.
-                    Note : We extract only those vertices from Set
-                    for which distance is finalized. So for them,
-                    we would never reach here.  */
+                // Si la distancia no es infinito, ya fue procesada por nuestro proceso, asi que la quitamos del set
                 if (dist[v] != INF)
                     setds.erase(setds.find(make_pair(dist[v], v)));
 
-                // Updating distance of v
+                // Agregamos la nueva distancia
                 dist[v] = dist[u] + weight;
 
                 parent[v] = u;
@@ -86,16 +72,13 @@ void Graph::encontrarSenderoMasBarato(int origen,int destino)
         }
     }
 
-
-
     imprimirResultado(dist,parent,origen,destino);
 
 }
 
 void Graph::encontrarSenderoMasRapido(int origen,int destino)
 {
-    // Create a set to store vertices that are being
-    // prerocessed
+    //Creamos un set para procesar los vertices.
     set< pair<double, double> > setds;
 
     // Armo un vector con la distancia de todos los nodos
@@ -111,43 +94,31 @@ void Graph::encontrarSenderoMasRapido(int origen,int destino)
     setds.insert(make_pair(0, origen));
     dist[origen] = 0;
 
-    /* Looping till all shortest distance are finalized
-       then setds will become empty */
+    // Buscamos las distancias de todos los vertices hasta que el set quede vacio.
     while (!setds.empty())
     {
-        // The first vertex in Set is the minimum distance
-        // vertex, extract it from set.
+        // Borramos el primer vertice del set ya que es la distancia mas corta.
         pair<double, double> tmp = *(setds.begin());
         setds.erase(setds.begin());
 
-        // vertex label is stored in second of pair (it
-        // has to be done this way to keep the vertices
-        // sorted distance (distance must be first item
-        // in pair)
         int u = tmp.second;
 
-        // 'i' is used to get all adjacent vertices of a vertex
+        //Con i obtenemos todos los vertices adyacentes
         list< pair<double, double> >::iterator i;
         for (i = listaAristasHoras[u].begin(); i != listaAristasHoras[u].end(); ++i)
         {
-            // Get vertex label and weight of current adjacent
-            // of u.
+            //Obtenemos nombre del vertice y su costo
             int v = (*i).first;
             double weight = (*i).second;
 
-            //  If there is shorter path to v through u.
+            //  si hay una arista mas corta de u a v.
             if (dist[v] > dist[u] + weight)
             {
-                /*  If distance of v is not INF then it must be in
-                    our set, so removing it and inserting again
-                    with updated less distance.
-                    Note : We extract only those vertices from Set
-                    for which distance is finalized. So for them,
-                    we would never reach here.  */
+                // Si la distancia no es infinito, ya fue procesada por nuestro proceso, asi que la quitamos del set
                 if (dist[v] != DINF)
                     setds.erase(setds.find(make_pair(dist[v], v)));
 
-                // Updating distance of v
+                // Agregamos la nueva distancia
                 dist[v] = dist[u] + weight;
 
                 parent[v] = u;
@@ -164,7 +135,7 @@ void Graph::encontrarSenderoMasRapido(int origen,int destino)
 void Graph::imprimirRecorrido(int parent[], int j)
 {
 
-    // Base Case : If j is source
+    // Si J es el comienzo
     if (parent[j] == - 1)
         return;
 
@@ -174,7 +145,7 @@ void Graph::imprimirRecorrido(int parent[], int j)
 }
 
 
-int Graph::imprimirResultado(vector<int> dist,int parent[],int origen,int destino)
+void Graph::imprimirResultado(vector<int> dist,int parent[],int origen,int destino)
 {
     printf("\nVertice\t Distancia\tSendero");
     printf("\n%d -> %d \t %d\t\t%d ",
@@ -183,7 +154,7 @@ int Graph::imprimirResultado(vector<int> dist,int parent[],int origen,int destin
 
 }
 
-int Graph::imprimirResultadoHoras(double dist,int parent[],int origen,int destino)
+void Graph::imprimirResultadoHoras(double dist,int parent[],int origen,int destino)
 {
 
     printf("\nVertice\t Distancia\tSendero");

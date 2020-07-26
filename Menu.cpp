@@ -1,6 +1,3 @@
-//
-// Created by LHF on 25/07/2020.
-//
 #include "Menu.h"
 #include "Graph.h"
 
