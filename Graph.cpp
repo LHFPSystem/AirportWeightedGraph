@@ -132,35 +132,35 @@ void Graph::encontrarSenderoMasRapido(int origen,int destino)
 
 }
 
-void Graph::imprimirRecorrido(int parent[], int j)
+void Graph::imprimirRecorrido(int sendero[], int j)
 {
 
     // Si J es el comienzo
-    if (parent[j] == - 1)
+    if (sendero[j] == - 1)
         return;
 
-    imprimirRecorrido(parent, parent[j]);
+    imprimirRecorrido(sendero, sendero[j]);
 
     printf("%d ", j);
 }
 
 
-void Graph::imprimirResultado(vector<int> dist,int parent[],int origen,int destino)
+void Graph::imprimirResultado(vector<int> distancia,int sendero[],int origen,int destino)
 {
     printf("\nVertice\t Distancia\tSendero");
     printf("\n%d -> %d \t %d\t\t%d ",
-           origen, destino, dist[destino], origen);
-    imprimirRecorrido(parent,destino);
+           origen, destino, distancia[destino], origen);
+    imprimirRecorrido(sendero,destino);
 
 }
 
-void Graph::imprimirResultadoHoras(double dist,int parent[],int origen,int destino)
+void Graph::imprimirResultadoHoras(double distancia,int sendero[],int origen,int destino)
 {
 
     printf("\nVertice\t Distancia\tSendero");
     printf("\n%d -> %d \t %f\t%d ",
-           origen, destino, dist, origen);
+           origen, destino, distancia, origen);
 
-    imprimirRecorrido(parent,destino);
+    imprimirRecorrido(sendero,destino);
 
 }
