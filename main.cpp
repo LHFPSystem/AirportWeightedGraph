@@ -1,11 +1,13 @@
 #include "Graph.h"
 #include "Menu.h"
+#include "Aeropuerto.h"
+#include "Cargador.h"
 #include <iostream>
 using namespace std;
 
 int main(){
-
-
+    Cargador este_cargador;	
+	este_cargador.cargar_datos();
 
     Graph g(9);
     g.agregarArista(0,1,4,4);
