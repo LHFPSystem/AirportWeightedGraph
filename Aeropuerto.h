@@ -1,6 +1,9 @@
 #ifndef AEROPUERTO_H
 #define AEROPUERTO_H
+#include <iostream>
 #include <string>
+
+using namespace std;
 
 class Aeropuerto{
 	private:
@@ -63,16 +66,20 @@ class Aeropuerto{
 		//Devuelve un int con el numero de terminales
 		//PRE: creacion de un objeto Aeropuerto (y carga de todos sus atributos)
 		//POST: devuelve un int con la cantidad de terminales que posee el aeropuerto
-		double get_terminales();
+		int get_terminales();
 
 		//Devuelve un int con el numero de destinos nacionales
 		//PRE: creacion de un objeto Aeropuerto (y carga de todos sus atributos)
 		//POST: devuelve un int con la cantidad de destinos nacionales que posee el aeropuerto
-		double get_d_nacionales();
+		int get_d_nacionales();
 
 		//Devuelve un int con el numero de destinos internacionales
 		//PRE: creacion de un objeto Aeropuerto (y carga de todos sus atributos)
 		//POST: devuelve un int con la cantidad de destinos internacionales que posee el aeropuerto
-		double get_d_internacionales();
+		int get_d_internacionales();
+
+		void mostrar_atributos();
+		
+};
 
 #endif
