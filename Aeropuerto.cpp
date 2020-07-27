@@ -1,14 +1,6 @@
-#include "Aeropuerto.h"
+#include "aeropuerto.h"
 
 Aeropuerto::Aeropuerto(){
-	iata="";
-	nombre="";
-	ciudad="";
-	pais="";
-	superficie=0;
-	terminales=0;
-	d_nacionales=0;
-	d_internacionales=0;
 }
 
 Aeropuerto::Aeropuerto(string iata, string nombre, string ciudad, string pais, double superficie, int terminales, int d_nacionales, int d_internacionales){
@@ -67,4 +59,8 @@ int Aeropuerto::get_d_nacionales(){
 
 int Aeropuerto::get_d_internacionales(){
 	return d_internacionales;
+}
+
+void Aeropuerto::mostrar_atributos(){
+	cout<<iata<<endl<<nombre<<endl<<ciudad<<endl<<pais<<endl<<superficie<<endl<<terminales<<endl<<d_nacionales<<endl<<d_internacionales<<endl<<endl;
 }
