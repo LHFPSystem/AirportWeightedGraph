@@ -1,30 +1,26 @@
-//
-// Created by carolina on 3/6/20.
-//
-
 #include "BSTNode.h"
 #include<iostream>
 
 #ifndef ABB_BST_H
 #define ABB_BST_H
 
-template <class T>
+template <class Aeropuerto,class T>
 class BST
 {
 private:
     // attributes
-    BSTNode<T>* root;
+    BSTNode<Aeropuerto,T>* root;
 
     // methods
-    BSTNode<T>* insert(BSTNode<T>* node, T* data,string clave);
-    void print_in_order(BSTNode<T> * node);
-    BSTNode<T>* search(BSTNode<T>* node,string clave);
-    T find_min(BSTNode<T>* node);
-    T find_max(BSTNode<T>* node);
-    T successor(BSTNode<T>* node);
-    T predecessor(BSTNode<T>* node);
-    BSTNode<T>* remove(BSTNode<T>* node,string clave);
-    void delete_all(BSTNode<T>* node);
+    BSTNode<Aeropuerto,T>* insert(BSTNode<Aeropuerto,T>* node, Aeropuerto* data,T clave);
+    void print_in_order(BSTNode<Aeropuerto,T> * node);
+    BSTNode<Aeropuerto,T>* search(BSTNode<Aeropuerto,T>* node,Aeropuerto*data,T clave);
+    T find_min(BSTNode<Aeropuerto,T>* node);
+    T find_max(BSTNode<Aeropuerto,T>* node);
+    T successor(BSTNode<Aeropuerto,T>* node);
+    T predecessor(BSTNode<Aeropuerto,T>* node);
+    BSTNode<Aeropuerto,T>* remove(BSTNode<Aeropuerto,T>* node,T clave);
+    void delete_all(BSTNode<Aeropuerto,T>* node);
 
 public:
     //methods
@@ -34,7 +30,7 @@ public:
 
      // Adds a new node to the actual BST. If its the tree is empty
      // the node inserted will be the root
-    void insert(T* data,string clave);
+    void insert(Aeropuerto* data,T clave);
 
     // Prints all the data stored in the BST, sorted from the
     // smallest value to the greatest value.
@@ -42,7 +38,7 @@ public:
 
     // Finds a given value in the BST. If the key exists it returns
     // TRUE, otherwise it returns FALSE.
-    bool search(string clave);
+    bool search(T clave);
 
     // Finds the minimum value that exist in the BST.
     T find_min();
@@ -51,33 +47,33 @@ public:
     T find_max();
 
     // Finds the successor of a given data value.
-    T successor(string clave);
+    T successor(T clave);
 
     // Finds the predecessor of a given data value.
-    T predecessor(string clave);
+    T predecessor(T clave);
 
     // Removes a given data from the BST
-    void remove(string clave);
+    void remove(T clave);
 
-    BSTNode<T>* get_root();
+    BSTNode<Aeropuerto,T>* get_root();
     bool empty();
 
     // Deletes all the nodes in the BST
     void delete_all();
-    ~BST<T>();
+    ~BST<Aeropuerto,T>();
 
 };
 
-template <class T>
-BST<T>::BST() {
+template <class Aeropuerto,class T>
+BST<Aeropuerto,T>::BST() {
     this->root = NULL;
 }
 
-template <class T>
-BSTNode<T>* BST<T>::insert(BSTNode<T>* node, T* data,string clave) {
+template <class Aeropuerto,class T>
+BSTNode<Aeropuerto,T>* BST<Aeropuerto,T>::insert(BSTNode<Aeropuerto,T>* node, Aeropuerto* data,T clave) {
 
     if (node == NULL) {
-        node = new BSTNode<T>(data,clave);
+        node = new BSTNode<Aeropuerto,T>(data,clave);
     }
 
     else if (clave > node->get_clave()) {
@@ -90,32 +86,32 @@ BSTNode<T>* BST<T>::insert(BSTNode<T>* node, T* data,string clave) {
     return node;
 }
 
-template <class T>
-void BST<T>::insert(T* data,string clave)
+template <class Aeropuerto,class T>
+void BST<Aeropuerto,T>::insert(Aeropuerto* data,T clave)
 {
     this->root = insert(this->root, data,clave);
 }
 
-template <class T>
-void BST<T>::print_in_order(BSTNode<T>* node)
+template <class Aeropuerto,class T>
+void BST<Aeropuerto,T>::print_in_order(BSTNode<Aeropuerto,T>* node)
 {
     if (node != NULL)
     {
         print_in_order(node->get_left());
-        std::cout<<node->get_data()<<' ';
+        
         std::cout<<"El codigo IATA es:"<<node->get_clave()<<endl;
         print_in_order(node->get_right());
     }
 }
 
-template <class T>
-void BST<T>::print_in_order()
+template <class Aeropuerto,class T>
+void BST<Aeropuerto,T>::print_in_order()
 {
     this->print_in_order(this->root);
 }
 
-template <class T>
-BSTNode<T>* BST<T>::search(BSTNode<T>* node,string clave)
+template <class Aeropuerto,class T>
+BSTNode<Aeropuerto,T>* BST<Aeropuerto,T>::search(BSTNode<Aeropuerto,T>* node,Aeropuerto* data,T clave)
 {
     if (node == NULL || node->get_clave() == clave)
         return node;
@@ -126,16 +122,16 @@ BSTNode<T>* BST<T>::search(BSTNode<T>* node,string clave)
     return search(node->get_left(), clave);
 }
 
-template <class T>
-bool BST<T>::search(string clave)
+template <class Aeropuerto,class T>
+bool BST<Aeropuerto,T>::search(T clave)
 {
-    BSTNode<T>* result = search(this->root, clave);
+    BSTNode<Aeropuerto,T>* result = search(this->root, clave);
 
     return result != NULL;
 }
 
-template <class T>
-T BST<T>::find_min(BSTNode<T>* node)
+template <class Aeropuerto,class T>
+T BST<Aeropuerto,T>::find_min(BSTNode<Aeropuerto,T>* node)
 {
     if(node == NULL)
         return -1;
@@ -145,14 +141,14 @@ T BST<T>::find_min(BSTNode<T>* node)
         return find_min(node->get_left());
 }
 
-template <class T>
-T BST<T>::find_min()
+template <class Aeropuerto,class T>
+T BST<Aeropuerto,T>::find_min()
 {
     return find_min(this->root);
 }
 
-template <class T>
-T BST<T>::find_max(BSTNode<T>* node)
+template <class Aeropuerto,class T>
+T BST<Aeropuerto,T>::find_max(BSTNode<Aeropuerto,T>* node)
 {
     if(node == NULL)
         return -1;
@@ -162,21 +158,21 @@ T BST<T>::find_max(BSTNode<T>* node)
         return find_max(node->get_right());
 }
 
-template <class T>
-T BST<T>::find_max()
+template <class Aeropuerto,class T>
+T BST<Aeropuerto,T>::find_max()
 {
     return find_max(this->root);
 }
 
-template <class T>
-T BST<T>::successor(BSTNode<T>* node)
+template <class Aeropuerto,class T>
+T BST<Aeropuerto,T>::successor(BSTNode<Aeropuerto,T>* node)
 {
     if (node->get_right() != NULL)
     {
         return find_min(node->get_right());
     }
-    BSTNode<T>* successor = NULL;
-    BSTNode<T>* ancestor = this->root;
+    BSTNode<Aeropuerto,T>* successor = NULL;
+    BSTNode<Aeropuerto,T>* ancestor = this->root;
     while(ancestor != node) {
         if(node->get_clave() < ancestor->get_clave()) {
             successor = ancestor;
@@ -188,26 +184,26 @@ T BST<T>::successor(BSTNode<T>* node)
     return successor->get_clave();
 }
 
-template <class T>
-T BST<T>::successor(string clave)
+template <class Aeropuerto,class T>
+T BST<Aeropuerto,T>::successor(T clave)
 {
-    BSTNode<T>* clave_node = this->search(this->root, clave);
+    BSTNode<Aeropuerto,T>* clave_node = this->search(this->root, clave);
     // Return the key. If the key is not found or successor is not found, return -1
     if(clave_node == NULL)
-        return -1;
+       return -1;
     else return successor(clave_node);
 }
 
-template <class T>
-T BST<T>::predecessor(BSTNode<T> * node)
+template <class Aeropuerto,class T>
+T BST<Aeropuerto,T>::predecessor(BSTNode<Aeropuerto,T> * node)
 {
     if (node->get_left() != NULL)
     {
         return find_max(node->get_left());
     }
 
-    BSTNode<T>* successor = NULL;
-    BSTNode<T>* ancestor = this->root;
+    BSTNode<Aeropuerto,T>* successor = NULL;
+    BSTNode<Aeropuerto,T>* ancestor = this->root;
     while(ancestor != node) {
         if(node->get_clave() > ancestor->get_clave()) {
             successor = ancestor; // so far this is the deepest node for which current node is in left
@@ -221,18 +217,18 @@ T BST<T>::predecessor(BSTNode<T> * node)
     return successor->get_clave();
 }
 
-template <class T>
-T BST<T>::predecessor(string clave)
+template <class Aeropuerto,class T>
+T BST<Aeropuerto,T>::predecessor(T clave)
 {
-    BSTNode<T> * clave_node = this->search(this->root, clave);
+    BSTNode<Aeropuerto,T> * clave_node = this->search(this->root, clave);
 
-    if(data_node == NULL)
+    if( clave_node== NULL)
         return -1;
     else return predecessor(clave_node);
 }
 
-template <class T>
-BSTNode<T> * BST<T>::remove(BSTNode<T>* node,string clave)
+template <class Aeropuerto,class T>
+BSTNode<Aeropuerto,T> * BST<Aeropuerto,T>::remove(BSTNode<Aeropuerto,T>* node,T clave)
 {
     // The given node is not found in BST
     if (node == NULL)
@@ -247,7 +243,7 @@ BSTNode<T> * BST<T>::remove(BSTNode<T>* node,string clave)
             // The only child will be connected to the parent's of node directly
             node->get_right()->set_parent(node->get_parent());
             // Bypass node
-            BSTNode<T>* aux = node;
+            BSTNode<Aeropuerto,T>* aux = node;
             node = node->get_right();
             delete aux;
         }
@@ -256,7 +252,7 @@ BSTNode<T> * BST<T>::remove(BSTNode<T>* node,string clave)
             // The only child will be connected to the parent's of node directly
             node->get_left()->set_parent(node->get_parent());
             // Bypass node
-            BSTNode<T>* aux = node;
+            BSTNode<Aeropuerto,T>* aux = node;
             node = node->get_left();
             delete aux;
         }
@@ -284,26 +280,26 @@ BSTNode<T> * BST<T>::remove(BSTNode<T>* node,string clave)
     return node;
 }
 
-template <class T>
-void BST<T>::remove(string clave)
+template <class Aeropuerto,class T>
+void BST<Aeropuerto,T>::remove(T clave)
 {
     this->root = remove(this->root, clave);
 }
 
-template <class T>
-BSTNode<T>* BST<T>::get_root(){
+template <class Aeropuerto,class T>
+BSTNode<Aeropuerto,T>* BST<Aeropuerto,T>::get_root(){
     return this->root;
 }
 
-template <class T>
-bool BST<T>::empty()
+template <class Aeropuerto,class T>
+bool BST<Aeropuerto,T>::empty()
 {
     return this->root == NULL;
 }
 
 
-template <class T>
-void BST<T>::delete_all(BSTNode<T>* node)
+template <class Aeropuerto,class T>
+void BST<Aeropuerto,T>::delete_all(BSTNode<Aeropuerto,T>* node)
 {
     if(node == NULL)
         return;
@@ -312,14 +308,14 @@ void BST<T>::delete_all(BSTNode<T>* node)
     delete node;
 }
 
-template <class T>
-void BST<T>::delete_all()
+template <class Aeropuerto,class T>
+void BST<Aeropuerto,T>::delete_all()
 {
     this->delete_all(this->root);
 }
 
-template <class T>
-BST<T>::~BST<T>()
+template <class Aeropuerto,class T>
+BST<Aeropuerto,T>::~BST<Aeropuerto,T>()
 {
     this->delete_all();
 }
