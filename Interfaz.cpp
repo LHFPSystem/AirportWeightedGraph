@@ -50,21 +50,62 @@ void Interfaz::menu(){
 }
 
 void Interfaz::consultar_aeropuerto(){
+	BSTNode<string>* node;
+	cout<<"Ingrese la clave del Aeropuerto"<<endl;
+    	string clave;
+    	cin>>clave;
+    	if(p_arbol->search(clave))
+    		cout<<endl;
+    		cout<<"encontrado"<<endl;
+    	
+	}
+    
 
-}
+
 
 void Interfaz::ingresar_aeropuerto(){
-
+	Aeropuerto* aeropuerto;
+    	string codigo,nombre,ciudad,pais;
+    	double superficie;
+		int terminales,d_nacionales,d_internacionales;
+    	cout<<"Ingrese el codigo del Aeropuerto "<<endl;
+    	cin>>codigo;
+    	cout<<"Ingrese el nombre del Aeropuerto "<<endl;
+    	cin>>nombre;
+    	cout<<"Ingrese la ciudad "<<endl;
+    	cin>>ciudad;
+    	cout<<"Ingrese el pais "<<endl;
+    	cin>>pais;
+    	cout<<"Ingrese el superficie"<<endl;
+    	cin>>superficie;
+    	cout<<"Ingrese la cantidad de terminales"<<endl;
+    	cin>>terminales;
+    	cout<<"Ingrese los destinos nacionales"<<endl;
+    	cin>>d_nacionales;
+    	cout<<"Ingrese los destinos internacionales"<<endl;
+    	cin>>d_internacionales;
+    	aeropuerto=new Aeropuerto(codigo,nombre,ciudad,pais,superficie,terminales,d_nacionales,d_internacionales);
+		p_arbol->insert(codigo,aeropuerto);
+		 delete aeropuerto;	
+		p_arbol->print_in_order();
 }
 
 void Interfaz::baja_aeropuerto(){
+	Aeropuerto* p_aeropuerto;
+	cout<<"Ingrese la clave del aeropuerto"<<endl;
+	string clave;
+    cin>>clave;
+    p_arbol-> remove(clave,p_aeropuerto);
+    p_arbol->print_in_order();
 
 }
 
 void Interfaz::mostrar_todos(){
+	cout<<endl;
 	p_arbol->print_in_order();
 }
 
 void Interfaz::mostrar_arbol(){
 
 }
+
