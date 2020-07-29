@@ -3,6 +3,7 @@
 
 // Constructor
 Cargador::Cargador(){
+	p_arbol=new BST<string>;
 }
 
 Cargador::~Cargador(){
@@ -24,11 +25,14 @@ void Cargador::cargar_datos() {
             archivo >> d_internacionales;
             // En este punto se instancia un aeropuerto
             p_aeropuerto=new Aeropuerto(iata,nombre,ciudad,pais,superficie,terminales,d_nacionales,d_internacionales);
-
-            p_arbol->insert(p_aeropuerto, (p_aeropuerto->get_iata()));
-        }         
+            
+            p_arbol->insert((p_aeropuerto->get_iata()), p_aeropuerto);
+        }
         archivo.close();
-        p_arbol->print_in_order();
         delete p_aeropuerto;
     }
+}
+
+BST<string>* Cargador::get_p_arbol(){
+	return p_arbol;
 }

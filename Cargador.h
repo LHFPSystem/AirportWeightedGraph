@@ -20,13 +20,13 @@ class Cargador{
 		int d_internacionales;
 		
 		Aeropuerto* p_aeropuerto;
-		BST<Aeropuerto>* p_arbol;
+		BST<string>* p_arbol;
 
 
 	public:
 		//Constructor
 		//PRE: ninguna
-		//POST: crea un objeto diseÃ±ado para cargar informacion desde un archivo de texto
+		//POST: crea un objeto diseñado para cargar informacion desde un archivo de texto
 		Cargador();
 
 		//Destructor
@@ -35,8 +35,11 @@ class Cargador{
 		~Cargador();
 
 		void cargar_datos();
+		
+		BST<string>* get_p_arbol();
 
 };
 
 
 #endif
+

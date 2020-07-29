@@ -15,7 +15,6 @@ Aeropuerto::Aeropuerto(string iata, string nombre, string ciudad, string pais, d
 }
 
 Aeropuerto::~Aeropuerto(){
-
 }
 
 void Aeropuerto::setea_todo(string iata, string nombre, string ciudad, string pais, double superficie, int terminales, int d_nacionales, int d_internacionales){
@@ -64,3 +63,4 @@ int Aeropuerto::get_d_internacionales(){
 void Aeropuerto::mostrar_atributos(){
 	cout<<iata<<endl<<nombre<<endl<<ciudad<<endl<<pais<<endl<<superficie<<endl<<terminales<<endl<<d_nacionales<<endl<<d_internacionales<<endl<<endl;
 }
+
