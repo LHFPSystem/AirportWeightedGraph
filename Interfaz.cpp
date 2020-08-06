@@ -54,9 +54,7 @@ void Interfaz::consultar_aeropuerto(){
 	cout<<"Ingrese la clave del Aeropuerto"<<endl;
     	string clave;
     	cin>>clave;
-    	if(p_arbol->search(clave))
-    		cout<<endl;
-    		cout<<"encontrado"<<endl;
+    	p_arbol->search(clave);
     	
 	}
     
@@ -108,4 +106,5 @@ void Interfaz::mostrar_todos(){
 void Interfaz::mostrar_arbol(){
 
 }
+
 

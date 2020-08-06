@@ -38,7 +38,7 @@ public:
 
     // Finds a given value in the BST. If the key exists it returns
     // TRUE, otherwise it returns FALSE.
-    bool search(T data);
+    void search(T data);
 
     // Finds the minimum value that exist in the BST.
     T find_min();
@@ -113,9 +113,11 @@ void BST<T>::print_in_order()
 
 template <class T>
 BSTNode<T>* BST<T>::search(BSTNode<T>* node, T data)
-{   // si el nodo que ingresa (raiz en successor) está vacio o es el mismo dato ingresado, retorna ese nodo, (raiz)
+{ Aeropuerto* p_aeropuerto;
+  // si el nodo que ingresa (raiz en successor) está vacio o es el mismo dato ingresado, retorna ese nodo, (raiz)
     if (node == NULL || node->get_data() == data)
         return node;
+        node->(node->get_p_aeropuerto())->mostrar_atributos();
 
     if (data > node->get_data())
         return search(node->get_right(), data);
@@ -124,11 +126,11 @@ BSTNode<T>* BST<T>::search(BSTNode<T>* node, T data)
 }
 
 template <class T>
-bool BST<T>::search(T data)
+void BST<T>::search(T data)
 {
     BSTNode<T>* result = search(this->root, data);
 
-    return result != NULL;
+    
 }
 
 template <class T>
@@ -322,3 +324,4 @@ BST<T>::~BST<T>()
 
 
 #endif //ABB_BST_H
+
