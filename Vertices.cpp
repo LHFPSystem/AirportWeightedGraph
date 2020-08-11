@@ -39,3 +39,26 @@ double Vertices::obtener_etiqueta_horas_acumuladas (int posicion){
 
     return etiqueta.obtenerDato(posicion)->obtener_horas_acumuladas();
 }
+
+int Vertices::obtener_tamanio_etiquetas (){
+
+    return etiqueta.obtenerCantidadElementos();
+}
+
+void Vertices::vaciar_lista_etiquetas (){
+
+    while (!etiqueta.vacia()){
+        etiqueta.sacar(PRIMER_ELEMENTO);
+    }
+
+}
+
+int Vertices::obtener_cantidad_de_impresiones (int posicion){
+
+    return etiqueta.obtenerDato(posicion)->obtener_cantidad_de_impresiones();
+}
+
+void Vertices::aumentar_impresiones(int posocion){
+
+    etiqueta.obtenerDato(posocion)->aumentar_cantidad_de_impresiones();
+}

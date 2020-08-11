@@ -3,6 +3,10 @@
 
 #include <string>
 
+const int IMPRESIONES_INICIALES = 0;
+const int COSTO_INICIAL = 0;
+const double HORAS_INICIALES = 0.0;
+
 using namespace std;
 
 class Etiqueta{
@@ -12,6 +16,7 @@ class Etiqueta{
         int costo_acumulado;
         double horas_acumuladas;
         string anterior;
+        int cantidad_de_impresiones;
 
     public:
 
@@ -22,7 +27,9 @@ class Etiqueta{
         string obtener_anterior();
         int obtener_costo_acumulado ();
         double obtener_horas_acumuladas ();
+        int obtener_cantidad_de_impresiones();
 
+        void aumentar_cantidad_de_impresiones ();
 
 
 

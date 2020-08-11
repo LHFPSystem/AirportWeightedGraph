@@ -7,6 +7,12 @@
 
 using namespace std;
 
+const int COSTO_BASE = 0;
+const double HORAS_BASE = 0.0;
+const string NOMBRE_GENERICO = "ZZZ";
+
+
+
 class Vuelos{
 
     private:
@@ -27,12 +33,6 @@ class Vuelos{
         string obtener_destino();
         int obtener_costo();
         double obtener_horas();
-/*
-        void asignar_origen(string origen);
-        void asignar_origen(string destino);
-        void asignar_origen(string costo);
-        void asignar_origen(string horas);
-*/
 
 };
 

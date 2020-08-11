@@ -2,10 +2,10 @@
 
 Vuelos::Vuelos (){
 
-    this->origen = " ";
-    this->destino =" ";
-    this->costo = 0;
-    this->horas = 0.0;
+    this->origen = NOMBRE_GENERICO;
+    this->destino = NOMBRE_GENERICO;
+    this->costo = COSTO_BASE;
+    this->horas = HORAS_BASE;
 }
 
 Vuelos::Vuelos (string origen, string destino, int costo, double horas){

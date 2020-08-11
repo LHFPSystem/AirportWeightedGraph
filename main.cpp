@@ -2,7 +2,7 @@
 #include <fstream>
 #include "Vertices.h"
 #include "Vuelos.h"
-
+#include "Dijkstra.h"
 
 using namespace std;
 
@@ -41,15 +41,9 @@ int main()
                     vertices.sacar(j);
             }
     }
-/*
-    for (int i=0; i<vertices.obtenerCantidadElementos(); i++){
-        cout << vertices.obtenerDato(i)->obtener_vertice() << endl << endl;
-    }
-    for (int j=0; j<vuelos.obtenerCantidadElementos(); j++){
-        cout << vuelos.obtenerDato(j)->obtener_origen() << endl;
-        cout << vuelos.obtenerDato(j)->obtener_destino() <<  endl;
-        cout << vuelos.obtenerDato(j)->obtener_costo() << endl;
-        cout << vuelos.obtenerDato(j)->obtener_horas() << endl << endl;
-    }
-*/
+
+    Dijkstra dijkstra ("LMS", "OPL", 'B');
+    dijkstra.calcular_caminos_minimos(vertices,vuelos);
+    cout << "hola";
+    return 0;
 }
