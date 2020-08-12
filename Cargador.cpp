@@ -15,7 +15,7 @@ void Cargador::cargar_datos() {
     if (archivo.fail()){
     	cout << "Error, no se pudo abrir el archivo: " <<"aeropuertos.txt"<< endl;
     }else{    	  
-		while (archivo >> iata) {
+		while (archivo >> iata){
             archivo >> nombre;
             archivo >> ciudad;
             archivo >> pais;
@@ -23,9 +23,7 @@ void Cargador::cargar_datos() {
             archivo >> terminales;
             archivo >> d_nacionales;
             archivo >> d_internacionales;
-            // En este punto se instancia un aeropuerto
-            p_aeropuerto=new Aeropuerto(iata,nombre,ciudad,pais,superficie,terminales,d_nacionales,d_internacionales);
-            
+            p_aeropuerto=new Aeropuerto(iata,nombre,ciudad,pais,superficie,terminales,d_nacionales,d_internacionales);            
             p_arbol->insert((p_aeropuerto->get_iata()), p_aeropuerto);
         }
         archivo.close();

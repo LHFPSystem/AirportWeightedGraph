@@ -1,66 +1,101 @@
-#ifndef TP_FINAL_NODO_H
-#define TP_FINAL_NODO_H
-#include <iostream>
-
-template <typename Tipo>
-class Nodo {
-
+#include"BSTNode.h"
+#ifndef NODO_H_INCLUDED
+#define NODO_H_INCLUDED
+template < typename T >
+class Nodo
+{
 private:
-    Tipo dato;
-    Nodo* pSig;
+	T dato; // Dato a almacenar
+	Nodo* psig; // Puntero a otro nodo
 
 public:
+	
+// Constructor con parametro
+// PRE: Ninguna
+// POST: Crea un nodo con el dato d
+// y el puntero a NULL
+Nodo(T d);
 
-    // PRE: -
-    // POST: Construye un nodo con el dato recibido
-    Nodo(Tipo datoExterno);
+// Destructor
+// PRE: Nodo creado
+// POST: No hace nada
+~Nodo();
 
-    // PRE: -
-    // POST: Le asigna pSigExterno a pSig
-    void asignarSiguiente(Nodo* pSigExterno);
+// Setea el dato (lo cambia)
+// PRE: el nodo tiene que estar creado
+// d tiene que ser un dato válido
+// POST: el nodo queda con el dato d
+void set_dato(T d);
 
-    // PRE: -
-    // POST: Le asigna datoExterno a dato
-    void asignarDato(Tipo datoExterno);
+// Setear el puntero al siguiente nodo
+// PRE: nodo creado y ps válido
+// POST: el puntero al siguiente apuntará a ps
+void set_sig(Nodo<T>* ps);
 
-    // PRE: -
-    // POST: Devuelve dato
-    Tipo obtenerDato();
+// Obtener el dato
+// PRE: nodo creado
+// POST: devuelve el dato que contiene el nodo
+T get_dato();
 
-    // PRE: -
-    // POST: Devuelve pSig
-    Nodo* obtenerSiguiente();
+// Obtener el puntero al nodo siguiente
+// PRE: nodo creado
+// POST: Devuelve el puntero al siguiente nodo
+// si es el último devuelve NULL
+Nodo<T>* get_sig();
+
+// ¿Hay un siguiente?
+// PRE: nodo creado
+// POST: V si tiene sig. F sino
+bool tiene_sig();
+
 };
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-template <typename Tipo>
-Nodo<Tipo>:: Nodo(Tipo datoExterno) {
-    dato = datoExterno;
-    pSig = 0;
+// Constructor con parametro
+template < typename T >
+Nodo<T>::Nodo(T d)
+{
+	dato = d;
+	psig = 0;
 }
 
-// <-------------------- Asignaciones
-template <typename Tipo>
-void Nodo<Tipo>:: asignarSiguiente(Nodo<Tipo>* pSigExterno) {
-    pSig = pSigExterno;
+// Destructor
+template < typename T >
+Nodo<T>::~Nodo()
+{
+// No hace nada
 }
 
-template <typename Tipo>
-Nodo<Tipo>* Nodo<Tipo>:: obtenerSiguiente() {
-    return pSig;
-}
-// -------------------->
-
-// <-------------------- Obtenciones
-template <typename Tipo>
-void Nodo<Tipo>:: asignarDato(Tipo datoExterno) {
-    dato = datoExterno;
+// Setear el dato
+template < typename T >
+void Nodo<T>::set_dato(T d)
+{
+	dato = d;
 }
 
-template <typename Tipo>
-Tipo Nodo<Tipo>:: obtenerDato() {
-    return dato;
+// Setear el ptr al sig
+template < typename T >
+void Nodo<T>::set_sig(Nodo* ps)
+{
+	psig = ps;
 }
-// -------------------->
-#endif //TP_FINAL_NODO_H
+
+// Devolver el dato
+template < typename T>
+T Nodo<T>::get_dato()
+{
+	return dato;
+}
+
+// Devolver el siguiente
+template < typename T >
+Nodo<T>* Nodo<T>::get_sig()
+{
+	return psig;
+}
+
+// Tiene siguiente?
+template < typename T >
+bool Nodo<T>::tiene_sig()
+{
+	return (psig != 0);
+}
+#endif // NODO_H_INCLUDED
