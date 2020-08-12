@@ -3,10 +3,15 @@
 #include "Aeropuerto.h"
 #include "BST.h"
 #include "BSTNode.h"
+#include "Vertices.h"
+#include "Vuelos.h"
 #include <sstream>
 #include <cstring>
 
 using namespace std;
+
+typedef Vertices* punteroVertice;
+typedef Vuelos* punteroVuelo;
 
 class Cargador{
 	private:
@@ -21,12 +26,13 @@ class Cargador{
 		
 		Aeropuerto* p_aeropuerto;
 		BST<string>* p_arbol;
+		
 
 
 	public:
 		//Constructor
 		//PRE: ninguna
-		//POST: crea un objeto diseñado para cargar informacion desde un archivo de texto
+		//POST: crea un objeto diseï¿½ado para cargar informacion desde un archivo de texto
 		Cargador();
 
 		//Destructor

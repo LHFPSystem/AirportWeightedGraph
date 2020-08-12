@@ -23,9 +23,11 @@ private:
 
 public:
     BSTNode(T data, Aeropuerto* p_aeropuerto);
+    BSTNode();
     T get_data();
     Aeropuerto* get_p_aeropuerto();
     void set_data(T data, Aeropuerto* p_aeropuerto);
+    void set_data(T data);
     void set_right(BSTNode<T>* right, BSTNode<T>* parent);
     void set_left(BSTNode<T>* left, BSTNode<T>* parent);
     void set_left(BSTNode<T>* left);
@@ -43,7 +45,17 @@ template <class T>
 BSTNode<T>::BSTNode(T data, Aeropuerto* p_aeropuerto)
 {
     this->data = data;
-    this->p_aeropuerto=p_aeropuerto;
+    this->p_aeropuerto = p_aeropuerto;
+    this->left = NULL;
+    this->right = NULL;
+    this->parent = NULL;
+}
+
+template <class T>
+BSTNode<T>::BSTNode()
+{
+    this->data = "";
+    this->p_aeropuerto = NULL;
     this->left = NULL;
     this->right = NULL;
     this->parent = NULL;
@@ -95,6 +107,11 @@ void BSTNode<T>::set_data(T data, Aeropuerto* p_aeropuerto) {
 }
 
 template <class T>
+void BSTNode<T>::set_data(T data) {
+    this->data = data;
+}
+
+template <class T>
 BSTNode<T>* BSTNode<T>::get_right()
 {
     return this->right;
@@ -128,4 +145,3 @@ bool BSTNode<T>::leftChildOnly() {
 }
 
 #endif //ABB_BSTNODE_H
-

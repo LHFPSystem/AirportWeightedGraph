@@ -1,4 +1,9 @@
+//
+// Created by carolina on 3/6/20.
+//
+
 #include "BSTNode.h"
+#include "Cola.h"
 #include<iostream>
 
 #ifndef ABB_BST_H
@@ -13,32 +18,38 @@ private:
 
     // methods
     BSTNode<T>* insert(BSTNode<T>* node, T data, Aeropuerto* p_aeropuerto);
+    void print_width(BSTNode<T>* node, BSTNode<T> *p_espacio);
     void print_in_order(BSTNode<T> * node);
     BSTNode<T>* search(BSTNode<T>* node, T data);
     T find_min(BSTNode<T>* node);
     T find_max(BSTNode<T>* node);
-    T successor(BSTNode<T>* node,Aeropuerto* p_aeropuerto);
+    T successor(BSTNode<T>* node);
     T predecessor(BSTNode<T>* node);
-    BSTNode<T>* remove(BSTNode<T>* node, T data,Aeropuerto* p_aeropuerto);
+    BSTNode<T>* remove(BSTNode<T>* node, T data);
     void delete_all(BSTNode<T>* node);
 
 public:
     //methods
+    BST();
 
     // Creates an empty tree
-    BST();
+    BST(BSTNode<T>* p_espacio);
     
     // Agrega un nuevo nodo al ABB actual. 
-    // Si es el árbol está vacío, el nodo insertado será la raíz
+    // Si es el Ã¡rbol estÃ¡ vacÃ­o, el nodo insertado serÃ¡ la raÃ­z
     void insert(T data, Aeropuerto* p_aeropuerto);
 
     // Prints all the data stored in the BST, sorted from the
     // smallest value to the greatest value.
     void print_in_order();
 
+    void print_width(BSTNode<T> * p_espacio);
+
     // Finds a given value in the BST. If the key exists it returns
     // TRUE, otherwise it returns FALSE.
     bool search(T data);
+    
+    BSTNode<T>* get_p_node(T data);
 
     // Finds the minimum value that exist in the BST.
     T find_min();
@@ -47,13 +58,13 @@ public:
     T find_max();
 
     // Finds the successor of a given data value.
-    T successor(T data,Aeropuerto* p_aeropuerto);
+    T successor(T data);
 
     // Finds the predecessor of a given data value.
     T predecessor(T data);
 
     // Removes a given data from the BST
-    void remove(T data,Aeropuerto* p_aeropuerto);
+    void remove(T data);
 
     BSTNode<T>* get_root();
     bool empty();
@@ -68,6 +79,14 @@ template <class T>
 BST<T>::BST() {
     this->root = NULL;
 }
+
+template <class T>
+BST<T>::BST(BSTNode<T>* p_espacio) {
+    this->root = NULL;
+    this->p_espacio=p_espacio;
+}
+
+// Â¿No hay que hacer aca una eliminacion, en bucle, de cada objeto en el heap al cual apuntan los punteros de los nodos del arbol?
 
 template <class T>
 BSTNode<T>* BST<T>::insert(BSTNode<T>* node, T data, Aeropuerto* p_aeropuerto) {
@@ -88,10 +107,41 @@ BSTNode<T>* BST<T>::insert(BSTNode<T>* node, T data, Aeropuerto* p_aeropuerto) {
 
 template <class T>
 void BST<T>::insert(T data, Aeropuerto* p_aeropuerto)
-{
-	
-	
+{	
 	this->root = insert(this->root, data, p_aeropuerto);
+}
+
+template <class T>
+void BST<T>::print_width(BSTNode<T>* p_espacio){
+    this->print_width(this->root, p_espacio);
+}
+
+template <class T>
+void BST<T>::print_width(BSTNode<T>* node, BSTNode<T>* p_espacio){
+    Cola<BSTNode<T>*> cola, cola_aux;
+    BSTNode<T>* nodo_aux;
+
+    if(node!=NULL){
+    	
+        cola.insert(node);
+        int cont=1;
+        
+        while(!(cola.cola_vacia()) && cont<=31){
+            cola_aux.insert(nodo_aux=cola.pop());
+            if(nodo_aux->get_left()!=NULL){
+                cola.insert(nodo_aux->get_left());
+            }else{
+            	cola.insert(p_espacio);				
+			}
+            if(nodo_aux->get_right()!=NULL){
+                cola.insert(nodo_aux->get_right());
+            }else{
+            	cola.insert(p_espacio);				
+			}
+			cont++;      
+        }
+        cola_aux.print_tree();
+    }
 }
 
 template <class T>
@@ -113,7 +163,7 @@ void BST<T>::print_in_order()
 
 template <class T>
 BSTNode<T>* BST<T>::search(BSTNode<T>* node, T data)
-{   // si el nodo que ingresa (raiz en successor) está vacio o es el mismo dato ingresado, retorna ese nodo, (raiz)
+{   // si el nodo que ingresa (raiz en successor) estÃ¡ vacio o es el mismo dato ingresado, retorna ese nodo, (raiz)
     if (node == NULL || node->get_data() == data)
         return node;
 
@@ -132,10 +182,18 @@ bool BST<T>::search(T data)
 }
 
 template <class T>
+BSTNode<T>* BST<T>::get_p_node(T data)
+{
+    BSTNode<T>* result = search(this->root, data);
+
+    return result;
+}
+
+template <class T>
 T BST<T>::find_min(BSTNode<T>* node)
 {
     if(node == NULL)
-        return "-1";
+        return NULL;
     else if(node->get_left() == NULL)
         return node->get_data();
     else
@@ -166,7 +224,7 @@ T BST<T>::find_max()
 }
 
 template <class T>
-T BST<T>::successor(BSTNode<T>* node,Aeropuerto*p_aeropuerto)
+T BST<T>::successor(BSTNode<T>* node)
 {   // si el nodo tiene hijo derecho, devuelve el minimo desde ese hijo
     if (node->get_right() != NULL)
     {
@@ -186,14 +244,14 @@ T BST<T>::successor(BSTNode<T>* node,Aeropuerto*p_aeropuerto)
 }
 
 template <class T>
-T BST<T>::successor(T data,Aeropuerto* p_aeropuerto)
+T BST<T>::successor(T data)
 {
     BSTNode<T>* data_node = this->search(this->root, data);
     // Return the key. If the key is not found or successor is not found, return -1
     if(data_node == NULL)
-        return "-1";
+        return NULL;
                 // este usa un puntero a nodo, por ende es el metodo privado
-    else return successor(data_node,p_aeropuerto);
+    else return successor(data_node);
 }
 
 template <class T>
@@ -223,12 +281,12 @@ T BST<T>::predecessor(T data)
     BSTNode<T> * data_node = this->search(this->root, data);
     // si no lo encuentra...
     if(data_node == NULL)
-        return -1;
+        return NULL;
     else return predecessor(data_node);
 }
 
 template <class T>
-BSTNode<T> * BST<T>::remove(BSTNode<T>* node, T data,Aeropuerto* p_aeropuerto)
+BSTNode<T> * BST<T>::remove(BSTNode<T>* node, T data)
 {
     // The given node is not found in BST
     if (node == NULL)
@@ -261,29 +319,29 @@ BSTNode<T> * BST<T>::remove(BSTNode<T>* node, T data,Aeropuerto* p_aeropuerto)
         else
         {
             // Find successor or predecessor to avoid quarrel
-            T successor_data = this->successor(data,p_aeropuerto);
+            T successor_data = this->successor(data);
 
             // Replace node's key with successor's key
-            node->set_data(successor_data,p_aeropuerto);
+            node->set_data(successor_data);
 
             // Delete the old successor's key
-            node->set_right(remove(node->get_right(), successor_data,p_aeropuerto));
+            node->set_right(remove(node->get_right(), successor_data));
         }
     }
 
     else if (node->get_data() < data)
-        node->set_right(remove(node->get_right(), data,p_aeropuerto));
+        node->set_right(remove(node->get_right(), data));
 
     else
-        node->set_left(remove(node->get_left(), data,p_aeropuerto));
+        node->set_left(remove(node->get_left(), data));
 
     return node;
 }
 
 template <class T>
-void BST<T>::remove(T data,Aeropuerto* p_aeropuerto)
+void BST<T>::remove(T data)
 {
-    this->root = remove(this->root, data,p_aeropuerto);
+    this->root = remove(this->root, data);
 }
 
 template <class T>

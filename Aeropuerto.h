@@ -37,6 +37,8 @@ class Aeropuerto{
 		//PRE: recibir por parametro todos los atributos que constituyen el objeto
 		//POST: setea un objeto diseñado para almacenar informacion de un aeropuerto
 		void setea_todo(string iata, string nombre, string ciudad, string pais, double superficie, int terminales, int d_nacionales, int d_internacionales);
+		
+		void set_iata(string iata);
 
 		//Devuelve un string con el codigo iata
 		//PRE: creacion de un objeto Aeropuerto (y carga de todos sus atributos)
