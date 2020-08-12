@@ -111,7 +111,7 @@ void Lista<Tipo>:: agregarAlPrincipio(Tipo datoExterno) {
 template <typename Tipo>
 void Lista<Tipo>:: agregarEnPosicion(Tipo datoExterno, int posicion) {
     Nodo<Tipo>* nuevoNodo = new Nodo<Tipo>(datoExterno);
-
+    cout << nuevoNodo << " esta memoria es de la lista " << endl << endl;
     if (posicion == 0) {
         nuevoNodo->asignarSiguiente(primero);
         primero = nuevoNodo;
@@ -137,8 +137,16 @@ void Lista<Tipo>:: sacar(int posicion) {
         borrar = anterior->obtenerSiguiente();
         anterior->asignarSiguiente(borrar->obtenerSiguiente());
     }
+
+    cout << elementos << endl << endl;
+    cout << borrar << endl << endl;
     delete borrar;
     elementos--;
+    cout << elementos << endl << endl;
+
+    //for (int i = 0; i < elementos; i++){
+      //  cout << this->obtenerDato(i) << endl;
+    //}
 }
 
 template <typename Tipo>
