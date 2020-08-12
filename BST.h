@@ -3,6 +3,7 @@
 //
 
 #include "BSTNode.h"
+#include "Cola.h"
 #include<iostream>
 
 #ifndef ABB_BST_H
@@ -16,33 +17,39 @@ private:
     BSTNode<T>* root;
 
     // methods
-    BSTNode<T>* insert(BSTNode<T>* node, T* data,string clave);
+    BSTNode<T>* insert(BSTNode<T>* node, T data, Aeropuerto* p_aeropuerto);
+    void print_width(BSTNode<T>* node, BSTNode<T> *p_espacio);
     void print_in_order(BSTNode<T> * node);
-    BSTNode<T>* search(BSTNode<T>* node,string clave);
+    BSTNode<T>* search(BSTNode<T>* node, T data);
     T find_min(BSTNode<T>* node);
     T find_max(BSTNode<T>* node);
     T successor(BSTNode<T>* node);
     T predecessor(BSTNode<T>* node);
-    BSTNode<T>* remove(BSTNode<T>* node,string clave);
+    BSTNode<T>* remove(BSTNode<T>* node, T data);
     void delete_all(BSTNode<T>* node);
 
 public:
     //methods
-
-    // Creates an empty tree
     BST();
 
-     // Adds a new node to the actual BST. If its the tree is empty
-     // the node inserted will be the root
-    void insert(T* data,string clave);
+    // Creates an empty tree
+    BST(BSTNode<T>* p_espacio);
+    
+    // Agrega un nuevo nodo al ABB actual. 
+    // Si es el árbol está vacío, el nodo insertado será la raíz
+    void insert(T data, Aeropuerto* p_aeropuerto);
 
     // Prints all the data stored in the BST, sorted from the
     // smallest value to the greatest value.
     void print_in_order();
 
+    void print_width(BSTNode<T> * p_espacio);
+
     // Finds a given value in the BST. If the key exists it returns
     // TRUE, otherwise it returns FALSE.
-    bool search(string clave);
+    bool search(T data);
+    
+    BSTNode<T>* get_p_node(T data);
 
     // Finds the minimum value that exist in the BST.
     T find_min();
@@ -51,13 +58,13 @@ public:
     T find_max();
 
     // Finds the successor of a given data value.
-    T successor(string clave);
+    T successor(T data);
 
     // Finds the predecessor of a given data value.
-    T predecessor(string clave);
+    T predecessor(T data);
 
     // Removes a given data from the BST
-    void remove(string clave);
+    void remove(T data);
 
     BSTNode<T>* get_root();
     bool empty();
@@ -74,26 +81,67 @@ BST<T>::BST() {
 }
 
 template <class T>
-BSTNode<T>* BST<T>::insert(BSTNode<T>* node, T* data,string clave) {
+BST<T>::BST(BSTNode<T>* p_espacio) {
+    this->root = NULL;
+    this->p_espacio=p_espacio;
+}
 
-    if (node == NULL) {
-        node = new BSTNode<T>(data,clave);
+// ¿No hay que hacer aca una eliminacion, en bucle, de cada objeto en el heap al cual apuntan los punteros de los nodos del arbol?
+
+template <class T>
+BSTNode<T>* BST<T>::insert(BSTNode<T>* node, T data, Aeropuerto* p_aeropuerto) {
+
+	if (node == NULL) {
+        node = new BSTNode<T>(data, p_aeropuerto);
     }
 
-    else if (clave > node->get_clave()) {
-        node->set_right(insert(node->get_right(), data,clave), node);
+    else if (data > node->get_data()) {
+        node->set_right(insert(node->get_right(), data, p_aeropuerto), node);
     }
 
     else {
-        node->set_left(insert(node->get_left(), data,clave), node);
+        node->set_left(insert(node->get_left(), data, p_aeropuerto), node);
     }
     return node;
 }
 
 template <class T>
-void BST<T>::insert(T* data,string clave)
-{
-    this->root = insert(this->root, data,clave);
+void BST<T>::insert(T data, Aeropuerto* p_aeropuerto)
+{	
+	this->root = insert(this->root, data, p_aeropuerto);
+}
+
+template <class T>
+void BST<T>::print_width(BSTNode<T>* p_espacio){
+    this->print_width(this->root, p_espacio);
+}
+
+template <class T>
+void BST<T>::print_width(BSTNode<T>* node, BSTNode<T>* p_espacio){
+    Cola<BSTNode<T>*> cola, cola_aux;
+    BSTNode<T>* nodo_aux;
+
+    if(node!=NULL){
+    	
+        cola.insert(node);
+        int cont=1;
+        
+        while(!(cola.cola_vacia()) && cont<=31){
+            cola_aux.insert(nodo_aux=cola.pop());
+            if(nodo_aux->get_left()!=NULL){
+                cola.insert(nodo_aux->get_left());
+            }else{
+            	cola.insert(p_espacio);				
+			}
+            if(nodo_aux->get_right()!=NULL){
+                cola.insert(nodo_aux->get_right());
+            }else{
+            	cola.insert(p_espacio);				
+			}
+			cont++;      
+        }
+        cola_aux.print_tree();
+    }
 }
 
 template <class T>
@@ -102,8 +150,7 @@ void BST<T>::print_in_order(BSTNode<T>* node)
     if (node != NULL)
     {
         print_in_order(node->get_left());
-        std::cout<<node->get_data()<<' ';
-        std::cout<<"El codigo IATA es:"<<node->get_clave()<<endl;
+        std::cout<<node->get_data()<<" ("<<(node->get_p_aeropuerto())->get_nombre()<<")"<<endl;
         print_in_order(node->get_right());
     }
 }
@@ -115,32 +162,40 @@ void BST<T>::print_in_order()
 }
 
 template <class T>
-BSTNode<T>* BST<T>::search(BSTNode<T>* node,string clave)
-{
-    if (node == NULL || node->get_clave() == clave)
+BSTNode<T>* BST<T>::search(BSTNode<T>* node, T data)
+{   // si el nodo que ingresa (raiz en successor) está vacio o es el mismo dato ingresado, retorna ese nodo, (raiz)
+    if (node == NULL || node->get_data() == data)
         return node;
 
-    if (data > node->get_clave())
-        return search(node->get_right(), clave);
+    if (data > node->get_data())
+        return search(node->get_right(), data);
 
-    return search(node->get_left(), clave);
+    return search(node->get_left(), data);
 }
 
 template <class T>
-bool BST<T>::search(string clave)
+bool BST<T>::search(T data)
 {
-    BSTNode<T>* result = search(this->root, clave);
+    BSTNode<T>* result = search(this->root, data);
 
     return result != NULL;
+}
+
+template <class T>
+BSTNode<T>* BST<T>::get_p_node(T data)
+{
+    BSTNode<T>* result = search(this->root, data);
+
+    return result;
 }
 
 template <class T>
 T BST<T>::find_min(BSTNode<T>* node)
 {
     if(node == NULL)
-        return -1;
+        return NULL;
     else if(node->get_left() == NULL)
-        return node->get_clave();
+        return node->get_data();
     else
         return find_min(node->get_left());
 }
@@ -157,7 +212,7 @@ T BST<T>::find_max(BSTNode<T>* node)
     if(node == NULL)
         return -1;
     else if(node->get_right() == NULL)
-        return node->get_clave();
+        return node->get_data();
     else
         return find_max(node->get_right());
 }
@@ -170,7 +225,7 @@ T BST<T>::find_max()
 
 template <class T>
 T BST<T>::successor(BSTNode<T>* node)
-{
+{   // si el nodo tiene hijo derecho, devuelve el minimo desde ese hijo
     if (node->get_right() != NULL)
     {
         return find_min(node->get_right());
@@ -178,24 +233,25 @@ T BST<T>::successor(BSTNode<T>* node)
     BSTNode<T>* successor = NULL;
     BSTNode<T>* ancestor = this->root;
     while(ancestor != node) {
-        if(node->get_clave() < ancestor->get_clave()) {
+        if(node->get_data() < ancestor->get_data()) {
             successor = ancestor;
             ancestor = ancestor->get_left();
         }
         else
             ancestor = ancestor->get_right();
     }
-    return successor->get_clave();
+    return successor->get_data();
 }
 
 template <class T>
-T BST<T>::successor(string clave)
+T BST<T>::successor(T data)
 {
-    BSTNode<T>* clave_node = this->search(this->root, clave);
+    BSTNode<T>* data_node = this->search(this->root, data);
     // Return the key. If the key is not found or successor is not found, return -1
-    if(clave_node == NULL)
-        return -1;
-    else return successor(clave_node);
+    if(data_node == NULL)
+        return NULL;
+                // este usa un puntero a nodo, por ende es el metodo privado
+    else return successor(data_node);
 }
 
 template <class T>
@@ -209,36 +265,34 @@ T BST<T>::predecessor(BSTNode<T> * node)
     BSTNode<T>* successor = NULL;
     BSTNode<T>* ancestor = this->root;
     while(ancestor != node) {
-        if(node->get_clave() > ancestor->get_clave()) {
+        if(node->get_data() > ancestor->get_data()) {
             successor = ancestor; // so far this is the deepest node for which current node is in left
             ancestor = ancestor->get_right();
         }
-        
-        
         else
             ancestor = ancestor->get_left();
     }
-    return successor->get_clave();
+    return successor->get_data();
 }
 
 template <class T>
-T BST<T>::predecessor(string clave)
-{
-    BSTNode<T> * clave_node = this->search(this->root, clave);
-
+T BST<T>::predecessor(T data)
+{   // crea un puntero a nodo que tendra la direccion de un nodo con el dato buscado
+    BSTNode<T> * data_node = this->search(this->root, data);
+    // si no lo encuentra...
     if(data_node == NULL)
-        return -1;
-    else return predecessor(clave_node);
+        return NULL;
+    else return predecessor(data_node);
 }
 
 template <class T>
-BSTNode<T> * BST<T>::remove(BSTNode<T>* node,string clave)
+BSTNode<T> * BST<T>::remove(BSTNode<T>* node, T data)
 {
     // The given node is not found in BST
     if (node == NULL)
         return NULL;
 
-    if (node->get_clave() == clave)
+    if (node->get_data() == data)
     {
         if (node->isLeaf())
             delete node;
@@ -265,29 +319,29 @@ BSTNode<T> * BST<T>::remove(BSTNode<T>* node,string clave)
         else
         {
             // Find successor or predecessor to avoid quarrel
-            T successor_clave = this->successor(clave);
+            T successor_data = this->successor(data);
 
             // Replace node's key with successor's key
-            node->set_clave(successor_clave);
+            node->set_data(successor_data);
 
             // Delete the old successor's key
-            node->set_right(remove(node->get_right(), successor_clave));
+            node->set_right(remove(node->get_right(), successor_data));
         }
     }
 
-    else if (node->get_clave() < clave)
-        node->set_right(remove(node->get_right(), clave));
+    else if (node->get_data() < data)
+        node->set_right(remove(node->get_right(), data));
 
     else
-        node->set_left(remove(node->get_left(), clave));
+        node->set_left(remove(node->get_left(), data));
 
     return node;
 }
 
 template <class T>
-void BST<T>::remove(string clave)
+void BST<T>::remove(T data)
 {
-    this->root = remove(this->root, clave);
+    this->root = remove(this->root, data);
 }
 
 template <class T>
@@ -326,4 +380,3 @@ BST<T>::~BST<T>()
 
 
 #endif //ABB_BST_H
-

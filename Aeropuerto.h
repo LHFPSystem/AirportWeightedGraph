@@ -1,6 +1,9 @@
 #ifndef AEROPUERTO_H
 #define AEROPUERTO_H
+#include <iostream>
 #include <string>
+
+using namespace std;
 
 class Aeropuerto{
 	private:
@@ -17,12 +20,12 @@ class Aeropuerto{
 	public:
 		//Constructor
 		//PRE: ninguna
-		//POST: crea un objeto dise√±ado para almacenar informacion de un aeropuerto
+		//POST: crea un objeto diseÒado para almacenar informacion de un aeropuerto
 		Aeropuerto();
 
 		//Constructor
 		//PRE: recibir por parametro todos los atributos que constituyen el objeto
-		//POST: crea un objeto dise√±ado para almacenar informacion de un aeropuerto
+		//POST: crea un objeto diseÒado para almacenar informacion de un aeropuerto
 		Aeropuerto(string iata, string nombre, string ciudad, string pais, double superficie, int terminales, int d_nacionales, int d_internacionales);
 
 		//Destructor
@@ -32,8 +35,10 @@ class Aeropuerto{
 
 		//setea todos los atributos que configuran el objeto Aeropuerto
 		//PRE: recibir por parametro todos los atributos que constituyen el objeto
-		//POST: setea un objeto dise√±ado para almacenar informacion de un aeropuerto
+		//POST: setea un objeto diseÒado para almacenar informacion de un aeropuerto
 		void setea_todo(string iata, string nombre, string ciudad, string pais, double superficie, int terminales, int d_nacionales, int d_internacionales);
+		
+		void set_iata(string iata);
 
 		//Devuelve un string con el codigo iata
 		//PRE: creacion de un objeto Aeropuerto (y carga de todos sus atributos)
@@ -47,7 +52,7 @@ class Aeropuerto{
 
 		//Devuelve un string con la ciudad
 		//PRE: creacion de un objeto Aeropuerto (y carga de todos sus atributos)
-		//POST: devuelve un string correspondiente a la ciudad en que est√° emplazada el aeropuerto
+		//POST: devuelve un string correspondiente a la ciudad en que est· emplazada el aeropuerto
 		string get_ciudad();
 
 		//Devuelve un string con el pais
@@ -63,16 +68,21 @@ class Aeropuerto{
 		//Devuelve un int con el numero de terminales
 		//PRE: creacion de un objeto Aeropuerto (y carga de todos sus atributos)
 		//POST: devuelve un int con la cantidad de terminales que posee el aeropuerto
-		double get_terminales();
+		int get_terminales();
 
 		//Devuelve un int con el numero de destinos nacionales
 		//PRE: creacion de un objeto Aeropuerto (y carga de todos sus atributos)
 		//POST: devuelve un int con la cantidad de destinos nacionales que posee el aeropuerto
-		double get_d_nacionales();
+		int get_d_nacionales();
 
 		//Devuelve un int con el numero de destinos internacionales
 		//PRE: creacion de un objeto Aeropuerto (y carga de todos sus atributos)
 		//POST: devuelve un int con la cantidad de destinos internacionales que posee el aeropuerto
-		double get_d_internacionales();
+		int get_d_internacionales();
+
+		void mostrar_atributos();
+		
+};
 
 #endif
+
