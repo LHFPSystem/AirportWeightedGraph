@@ -1,7 +1,3 @@
-//
-// Created by carolina on 3/6/20.
-//
-
 #include "BSTNode.h"
 #include "Cola.h"
 #include<iostream>
@@ -13,7 +9,7 @@ template <class T>
 class BST
 {
 private:
-    // attributes
+    // atributos
     BSTNode<T>* root;
 
     // methods
@@ -29,47 +25,50 @@ private:
     void delete_all(BSTNode<T>* node);
 
 public:
-    //methods
+    //metodos
     BST();
 
-    // Creates an empty tree
+	// Crea un arbol vacio.
     BST(BSTNode<T>* p_espacio);
     
     // Agrega un nuevo nodo al ABB actual. 
-    // Si es el Ã¡rbol estÃ¡ vacÃ­o, el nodo insertado serÃ¡ la raÃ­z
+    // Si es el árbol está vacío, el nodo insertado será la raíz
     void insert(T data, Aeropuerto* p_aeropuerto);
 
-    // Prints all the data stored in the BST, sorted from the
-    // smallest value to the greatest value.
+	// Imprime todas las claves segun el recorrido inorden.
     void print_in_order();
 
+	//Imprime las claves segun el recorrido en anchura nivel por nivel
     void print_width(BSTNode<T> * p_espacio);
 
-    // Finds a given value in the BST. If the key exists it returns
-    // TRUE, otherwise it returns FALSE.
+    // Busca un valor dado en la BST.Si la clave existe devuelve verdadero de lo contrario devuelve falso.
     bool search(T data);
     
+    //Devuelve un puntero a un nodo del arbol llama al metodo buscar y le pasa la raiz del arbol
     BSTNode<T>* get_p_node(T data);
 
-    // Finds the minimum value that exist in the BST.
+	// Encuentra el valor minima que existe en la BST.
     T find_min();
 
-    // Finds the maximum value that exist in the BST.
+	// Encuentra el valor minima que existe en la BST.
     T find_max();
-
-    // Finds the successor of a given data value.
+    
+	//Encuentra el sucesor de un valor de datos dado.
     T successor(T data);
 
-    // Finds the predecessor of a given data value.
+	//Encuentra el predecessor de un valor de datos dado.
     T predecessor(T data);
 
-    // Removes a given data from the BST
+    //Elimina un dato dado de la BST.
     void remove(T data);
 
+	//Devuelve la raiz del arbol.
     BSTNode<T>* get_root();
-    bool empty();
+    
+	//Devuelve verdadero si el arbol esta vacio.
+	bool empty();
 
-    // Deletes all the nodes in the BST
+	//Borra todos los nodos de BST.
     void delete_all();
     ~BST<T>();
 
@@ -86,7 +85,6 @@ BST<T>::BST(BSTNode<T>* p_espacio) {
     this->p_espacio=p_espacio;
 }
 
-// Â¿No hay que hacer aca una eliminacion, en bucle, de cada objeto en el heap al cual apuntan los punteros de los nodos del arbol?
 
 template <class T>
 BSTNode<T>* BST<T>::insert(BSTNode<T>* node, T data, Aeropuerto* p_aeropuerto) {
@@ -163,7 +161,7 @@ void BST<T>::print_in_order()
 
 template <class T>
 BSTNode<T>* BST<T>::search(BSTNode<T>* node, T data)
-{   // si el nodo que ingresa (raiz en successor) estÃ¡ vacio o es el mismo dato ingresado, retorna ese nodo, (raiz)
+{   // si el nodo que ingresa (raiz en successor) está vacio o es el mismo dato ingresado, retorna ese nodo, (raiz)
     if (node == NULL || node->get_data() == data)
         return node;
 
@@ -247,7 +245,8 @@ template <class T>
 T BST<T>::successor(T data)
 {
     BSTNode<T>* data_node = this->search(this->root, data);
-    // Return the key. If the key is not found or successor is not found, return -1
+    //Devuelve la clave. Si la clave no es encontrada, devuelve -1.
+    
     if(data_node == NULL)
         return NULL;
                 // este usa un puntero a nodo, por ende es el metodo privado
@@ -266,7 +265,8 @@ T BST<T>::predecessor(BSTNode<T> * node)
     BSTNode<T>* ancestor = this->root;
     while(ancestor != node) {
         if(node->get_data() > ancestor->get_data()) {
-            successor = ancestor; // so far this is the deepest node for which current node is in left
+        	
+            successor = ancestor; //Hasta ahora, este es el nodo mas profundo para el que el nodo actual está a la izquierda.
             ancestor = ancestor->get_right();
         }
         else
@@ -298,16 +298,16 @@ BSTNode<T> * BST<T>::remove(BSTNode<T>* node, T data)
             delete node;
         else if (node->rightChildOnly())
         {
-            // The only child will be connected to the parent's of node directly
+            //El unico hijo se conectara directamente al padre del nodo
             node->get_right()->set_parent(node->get_parent());
-            // Bypass node
+            // Nodo auxiliar
             BSTNode<T>* aux = node;
             node = node->get_right();
             delete aux;
         }
         else if (node->leftChildOnly())
         {
-            // The only child will be connected to the parent's of node directly
+            //El unico hijo se conectará directamente al padre del nodo
             node->get_left()->set_parent(node->get_parent());
             // Bypass node
             BSTNode<T>* aux = node;
@@ -318,13 +318,13 @@ BSTNode<T> * BST<T>::remove(BSTNode<T>* node, T data)
         // The node has two children (left and right)
         else
         {
-            // Find successor or predecessor to avoid quarrel
+            // Encuentra sucesor o predecesor
             T successor_data = this->successor(data);
 
-            // Replace node's key with successor's key
+            // Reemplazar la clave del nodo con la clave del sucesor
             node->set_data(successor_data);
 
-            // Delete the old successor's key
+            // Eliminar la clave anterior del sucesor
             node->set_right(remove(node->get_right(), successor_data));
         }
     }
