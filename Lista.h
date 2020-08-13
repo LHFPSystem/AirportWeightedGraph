@@ -1,13 +1,13 @@
 #ifndef TP_FINAL_LISTA_H
 #define TP_FINAL_LISTA_H
 
-#include "Nodo.h"
+#include "Nodo_L.h"
 
 template <typename Tipo>
 class Lista {
 
 private:
-    Nodo<Tipo>* primero;
+    Nodo_L<Tipo>* primero;
     int elementos;
 
 public:
@@ -55,7 +55,7 @@ public:
 private:
     // PRE: 0 < posicion <= elementos
     // POST: Devuelve un puntero de tipo nodo correspondiente con la posicion
-    Nodo<Tipo>* obtenerNodo(int posicion);
+    Nodo_L<Tipo>* obtenerNodo(int posicion);
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,8 +84,8 @@ int Lista<Tipo>:: obtenerCantidadElementos() {
 }
 
 template <typename Tipo>
-Nodo<Tipo>* Lista<Tipo>:: obtenerNodo(int posicion) {
-    Nodo<Tipo>* aux = primero;
+Nodo_L<Tipo>* Lista<Tipo>:: obtenerNodo(int posicion) {
+    Nodo_L<Tipo>* aux = primero;
     int i = 0;
     while (i < posicion) {
         aux = aux->obtenerSiguiente();
@@ -110,14 +110,14 @@ void Lista<Tipo>:: agregarAlPrincipio(Tipo datoExterno) {
 
 template <typename Tipo>
 void Lista<Tipo>:: agregarEnPosicion(Tipo datoExterno, int posicion) {
-    Nodo<Tipo>* nuevoNodo = new Nodo<Tipo>(datoExterno);
+    Nodo_L<Tipo>* nuevoNodo = new Nodo_L<Tipo>(datoExterno);
 
     if (posicion == 0) {
         nuevoNodo->asignarSiguiente(primero);
         primero = nuevoNodo;
     }
     else {
-        Nodo<Tipo>* anterior = obtenerNodo(posicion - 1);
+        Nodo_L<Tipo>* anterior = obtenerNodo(posicion - 1);
         nuevoNodo->asignarSiguiente(anterior->obtenerSiguiente());
         anterior->asignarSiguiente(nuevoNodo);
     }
@@ -126,14 +126,14 @@ void Lista<Tipo>:: agregarEnPosicion(Tipo datoExterno, int posicion) {
 
 template <typename Tipo>
 void Lista<Tipo>:: sacar(int posicion) {
-    Nodo<Tipo>* borrar = primero;
+    Nodo_L<Tipo>* borrar = primero;
 
     if (posicion == 0) {
         primero = borrar->obtenerSiguiente();
     }
 
     else {
-        Nodo<Tipo>* anterior = obtenerNodo(posicion - 1);
+        Nodo_L<Tipo>* anterior = obtenerNodo(posicion - 1);
         borrar = anterior->obtenerSiguiente();
         anterior->asignarSiguiente(borrar->obtenerSiguiente());
     }
