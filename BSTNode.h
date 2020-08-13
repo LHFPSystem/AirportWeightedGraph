@@ -1,11 +1,10 @@
+
 #include <string>
 #include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
 
-//
-// Created by carolina on 3/6/20.
-//
+
 
 #ifndef ABB_BSTNODE_H
 #define ABB_BSTNODE_H
@@ -17,27 +16,73 @@ class BSTNode
 private:
     T data;
     Aeropuerto* p_aeropuerto;
-    BSTNode<T>* left; //Left children
-    BSTNode<T>* right; //Right children
+    BSTNode<T>* left; //Hijo izquierdo
+    BSTNode<T>* right; //Hijo derecho
     BSTNode<T>* parent;
 
 public:
+	//PRE:Recibir por parametro los atributos data y p_aeropuerto.
+	//POST: Crea un nodo seteando los atributos.
     BSTNode(T data, Aeropuerto* p_aeropuerto);
-    BSTNode();
+    
+    //PRE:Ninguna.
+    //POST:Devuelve el dato.
     T get_data();
+    
+	//PRE:Ninguna.
+    //POST:Devuelve un puntero a aeropuerto.
     Aeropuerto* get_p_aeropuerto();
+    
+    //PRE:Recibir por parametro los atributos data y p_aeropuerto.
+    //POST:Setea el dato y aeropuerto.
     void set_data(T data, Aeropuerto* p_aeropuerto);
+    
+    //PRE:Recibir por parametro el atributo data.
+    //POST:Setea el dato.
     void set_data(T data);
+    
+    //PRE:Recibir por parametro los atributos right y parent.
+    //POST:Setea el hijo derecho y el padre.
     void set_right(BSTNode<T>* right, BSTNode<T>* parent);
+    
+    //PRE:Recibir por parametro los atributos left y parent.
+    //POST:Setea el hijo izquierdo y el padre.
     void set_left(BSTNode<T>* left, BSTNode<T>* parent);
+    
+    //PRE:Recibir por parametro el atributo left.
+    //POST:Setea el hijo izquierdo.
     void set_left(BSTNode<T>* left);
+    
+    //PRE:Recibir por parametro el atributo right.
+    //POST:Setea el hijo derecho.
     void set_right(BSTNode<T>* right);
+    
+     //PRE:Recibir por parametro el atributo parent.
+    //POST:Setea el padre.
     void set_parent(BSTNode<T>* parent);
+    
+    //PRE:Ninguna.
+    //POST:Devuelve un puntero a nodo derecho.
     BSTNode<T>* get_right();
+    
+    //PRE:Ninguna.
+    //POST:Devuelve un puntero a nodo izquierdo.
     BSTNode<T>* get_left();
+    
+    //PRE:
+    //POST:Devuelve un puntero al nodo padre.
     BSTNode<T>* get_parent();
+    
+    //PRE:
+    //POST:Si es hoja (no tiene hijos) devuelve true sino falso.
     bool isLeaf();
+    
+    //PRE:Ninguna.
+    //POST:Si tiene solo hijo a la derecha devuelve true sino falso.
     bool rightChildOnly();
+    
+    //PRE:
+    //POST:Si tiene solo hijo a la izquierdo devuelve true sino falso.
     bool leftChildOnly();
 };
 
@@ -45,17 +90,7 @@ template <class T>
 BSTNode<T>::BSTNode(T data, Aeropuerto* p_aeropuerto)
 {
     this->data = data;
-    this->p_aeropuerto = p_aeropuerto;
-    this->left = NULL;
-    this->right = NULL;
-    this->parent = NULL;
-}
-
-template <class T>
-BSTNode<T>::BSTNode()
-{
-    this->data = "";
-    this->p_aeropuerto = NULL;
+    this->p_aeropuerto=p_aeropuerto;
     this->left = NULL;
     this->right = NULL;
     this->parent = NULL;
