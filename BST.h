@@ -2,7 +2,6 @@
 // Created by carolina on 3/6/20.
 //
 
-#include "BSTNode.h"
 #include "Cola.h"
 #include<iostream>
 
@@ -67,6 +66,7 @@ public:
     void remove(T data);
 
     BSTNode<T>* get_root();
+    
     bool empty();
 
     // Deletes all the nodes in the BST

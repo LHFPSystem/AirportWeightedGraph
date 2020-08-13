@@ -2,4 +2,7 @@ EZE Ministro-Pistarini Ezeiza Argentina 34.75 4 12 46
 LAX Aeropuerto-Internacional-de-los-Angeles Los-Angeles EEUU 14 9 87 69
 AEP Aeroparque-Jorge-Newbery Buenos_Aires Argentina 24.5 7 12 34
 CCP Aeropuerto-Carriel-Sur Concepcion Chile 14.5 3 4 25
-CDG Aeropuerto-de-París-Charles-de-Gaulle Paris Francia 24 19 97 73
+CDG Charles-de-Gaulle Paris Francia 24 19 97 73
+BCN Barcelona-El-Prat Barcelona España 34.12 43 63 78
+JER Aeropuerto-de-Jersey St.Helier UK 35.6 34 42 42
+SCL Arturo-Merino-Benitez Santiago Chile 41.5 48 52 43

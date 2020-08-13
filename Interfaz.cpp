@@ -7,31 +7,43 @@ Interfaz::Interfaz(){
 Interfaz::~Interfaz(){
 }
 
-void Interfaz::set_p_arbol(BST<string>* p_arbol){
+void Interfaz::ingresar_p_arbol(BST<string>* p_arbol){
 	this->p_arbol=p_arbol;
 }
 
+void Interfaz::set_vertices(Lista <punteroVertice> vertices){
+	this->vertices=vertices;
+}
+
+void Interfaz::set_vuelos(Lista <punteroVuelo> vuelos){
+	this->vuelos=vuelos;
+}
+
 void Interfaz::menu(){
-	Cargador este_cargador;	
+	Cargador este_cargador;
 	este_cargador.cargar_datos();
-	this->p_arbol=este_cargador.get_p_arbol();	
+	this->p_arbol=este_cargador.obtener_p_arbol();
+    rellenar_listas();
 	cout<<endl<<"*** Hola, bienvenido a tu programa de aeropuertos! lee con atencion las opciones disponibles para ti en el menu ***"<<endl;
+	unsigned opcion;
 	do{
-		cout<<endl<<"** Presiona un numero correspondiente a alguna de las siguientes alternativas: **"<<endl<<endl;		
+		cout<<endl<<"** Presiona un numero correspondiente a alguna de las siguientes alternativas: **"<<endl<<endl;
 		cout<<"   1.- Consultar un aeropuerto en particular"<<endl;
 		cout<<"   2.- Dar de alta (ingresar) un nuevo aeropuerto al diccionario"<<endl;
 		cout<<"   3.- Dar de baja (eliminar) un aeropuerto del diccionario"<<endl;
 		cout<<"   4.- Mostrar en orden (segun su codigo IATA) todos los aeropuertos"<<endl;
 		cout<<"   5.- Mostrar la estructura del arbol de busqueda binario, herramienta informatica subyacente al diccionario"<<endl;
-		cout<<"   6.- Finalizar la aplicacion"<<endl<<endl;
-		
+		cout<<"   6.- Buscar vuelo mas rapido"<<endl;
+    	cout<<"   7.- Buscar vuelo mas barato"<<endl;
+    	cout<<"   8.- Finalizar la aplicacion"<<endl <<endl;
+
 		cout<<"** Mientras no presiones la opcion 6 seguiremos mostrandote el menu luego de realizar la operacion elegida **"<<endl<<endl;
-		unsigned opcion; cin>>opcion; cout<<endl;
-		
+		cin>>opcion; cout<<endl;
+
 		// Ramificacion del programa de acuerdo a la opcion escogida
 		switch(opcion){
 			case 1:{
-				consultar_aeropuerto();			
+				consultar_aeropuerto();
 				break;
 			}
 			case 2:{
@@ -50,9 +62,17 @@ void Interfaz::menu(){
 				mostrar_arbol();
 				break;
 			}
-			case 6: cout<<"gracias por usar este programa! Hasta pronto"<<endl; break;
+			case 6:{
+				buscarVueloMasRapido();
+				break;
+			}
+			case 7:{
+				buscarVueloMasBarato();
+				break;
+			}
+			case 8: cout<<"gracias por usar este programa! Hasta pronto"<<endl; break;
 		}
-	}while(opcion!=6);
+	}while(opcion!=8);
 	delete p_arbol;
 }
 
@@ -66,7 +86,7 @@ void Interfaz::consultar_aeropuerto(){
 	}else{
 		cout<<"* Lo sentimos, el codigo IATA ingresado no figura en nuestros registros *";
 	}
-	
+
 }
 
 void Interfaz::ingresar_aeropuerto(){
@@ -112,4 +132,55 @@ void Interfaz::mostrar_arbol(){
     p_salto->set_data("   ");
 	p_arbol->print_width(p_salto);
 	delete p_salto;
+}
+
+void Interfaz::buscarVueloMasRapido(){
+    string origen, destino;
+    cout << "   Ingrese el origen del vuelo: " << endl;
+    cin >> origen;
+    cout << "   Ingrese el destino del vuelo: " << endl;
+    cin >> destino;
+	Dijkstra dijkstra (origen, destino, 'R');
+	dijkstra.calcular_caminos_minimos(this->vertices,this->vuelos);
+}
+
+void Interfaz::buscarVueloMasBarato(){
+    string origen, destino;
+    cout << "   Ingrese el origen del vuelo: " << endl;
+    cin >> origen;
+    cout << "   Ingrese el destino del vuelo: " << endl;
+    cin >> destino;
+	Dijkstra dijkstra (origen, destino, 'B');
+	dijkstra.calcular_caminos_minimos(this->vertices,this->vuelos);
+
+};
+
+void Interfaz::rellenar_listas(){
+
+	ifstream archivo_vuelos ("vuelos.txt");
+    string origen;
+    string destino;
+    string costo;
+    string horas;
+
+    if (!archivo_vuelos.fail()){
+        while(!archivo_vuelos.eof()){
+                archivo_vuelos >> origen;
+                archivo_vuelos >> destino;
+                archivo_vuelos >> costo;
+                archivo_vuelos >> horas;
+
+                Vertices* dato = new Vertices(origen);
+                Vuelos* dato_2 = new Vuelos(origen, destino, atoi(costo.c_str()), atof(horas.c_str()));
+
+                this->vuelos.agregarAlFinal(dato_2);
+                this->vertices.agregarAlFinal(dato);
+        }
+    }
+        for (int i=0; i<vertices.obtenerCantidadElementos(); i++){
+            for (int j = i+1 ; j<vertices.obtenerCantidadElementos() ; j++){
+                if (vertices.obtenerDato(i)->obtener_vertice() == vertices.obtenerDato(j)->obtener_vertice())
+                    vertices.sacar(j);
+            }
+    }
 }
