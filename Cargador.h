@@ -26,6 +26,8 @@ class Cargador{
 		
 		Aeropuerto* p_aeropuerto;
 		BST<string>* p_arbol;
+		Lista <punteroVertice> vertices;
+    	Lista <punteroVuelo> vuelos;
 		
 
 
@@ -43,6 +45,8 @@ class Cargador{
 		void cargar_datos();
 		
 		BST<string>* get_p_arbol();
+		Lista <punteroVertice> get_vertices();
+		Lista <punteroVuelo> get_vuelos();
 
 };
 

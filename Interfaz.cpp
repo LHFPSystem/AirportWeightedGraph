@@ -1,4 +1,5 @@
 #include "Interfaz.h"
+#include "Dijkstra.h"
 
 //Constructor
 Interfaz::Interfaz(){
@@ -11,10 +12,23 @@ void Interfaz::set_p_arbol(BST<string>* p_arbol){
 	this->p_arbol=p_arbol;
 }
 
+void Interfaz::set_vertices(Lista <punteroVertice> vertices){
+	this->vertices=vertices;
+}
+
+void Interfaz::set_vuelos(Lista <punteroVuelo> vuelos){
+	this->vuelos=vuelos;
+}
+
 void Interfaz::menu(){
+
 	Cargador este_cargador;	
 	este_cargador.cargar_datos();
-	this->p_arbol=este_cargador.get_p_arbol();	
+
+	this->p_arbol=este_cargador.get_p_arbol();
+	this->vertices=este_cargador.get_vertices();
+	this->vuelos=este_cargador.get_vuelos();
+
 	cout<<endl<<"*** Hola, bienvenido a tu programa de aeropuertos! lee con atencion las opciones disponibles para ti en el menu ***"<<endl;
 	do{
 		cout<<endl<<"** Presiona un numero correspondiente a alguna de las siguientes alternativas: **"<<endl<<endl;		
@@ -23,9 +37,11 @@ void Interfaz::menu(){
 		cout<<"   3.- Dar de baja (eliminar) un aeropuerto del diccionario"<<endl;
 		cout<<"   4.- Mostrar en orden (segun su codigo IATA) todos los aeropuertos"<<endl;
 		cout<<"   5.- Mostrar la estructura del arbol de busqueda binario, herramienta informatica subyacente al diccionario"<<endl;
-		cout<<"   6.- Finalizar la aplicacion"<<endl<<endl;
+		cout<<"   6.- Buscar vuelo mas rapido"<<endl;
+    	cout<<"   7.- Buscar vuelo mas barato"<<endl;
+    	cout<<"   8.- Salir"<<endl;
 		
-		cout<<"** Mientras no presiones la opcion 6 seguiremos mostrandote el menu luego de realizar la operacion elegida **"<<endl<<endl;
+		cout<<"** Mientras no presiones la opcion 8 seguiremos mostrandote el menu luego de realizar la operacion elegida **"<<endl<<endl;
 		unsigned opcion; cin>>opcion; cout<<endl;
 		
 		// Ramificacion del programa de acuerdo a la opcion escogida
@@ -50,9 +66,17 @@ void Interfaz::menu(){
 				mostrar_arbol();
 				break;
 			}
-			case 6: cout<<"gracias por usar este programa! Hasta pronto"<<endl; break;
+			case 6:{
+				buscarVueloMasRapido();
+				break;
+			}
+			case 7:{
+				buscarVueloMasBarato();
+				break;
+			}
+			case 8: cout<<"gracias por usar este programa! Hasta pronto"<<endl; break;
 		}
-	}while(opcion!=6);
+	}while(opcion!=8);
 	delete p_arbol;
 }
 
@@ -94,7 +118,7 @@ void Interfaz::baja_aeropuerto(){
 	cout<<"* Ingresa, con mayusculas, el codigo IATA del aeropuerto que deseas dar de baja: *"<<endl;
 	cin>>codigo;
 	if(p_arbol->search(codigo)){
-		cout<<endl<<"* Efectivamente este aeropuerto se encuentra en nuestros registros, a continuacion se eliminará: *"<<endl<<endl;
+		cout<<endl<<"* Efectivamente este aeropuerto se encuentra en nuestros registros, a continuacion se eliminarï¿½: *"<<endl<<endl;
 		p_arbol->remove(codigo);
 	}else{
 		cout<<"* Lo sentimos, el codigo IATA ingresado no figura en nuestros registros *";
@@ -113,3 +137,26 @@ void Interfaz::mostrar_arbol(){
 	p_arbol->print_width(p_salto);
 	delete p_salto;
 }
+
+void Interfaz::buscarVueloMasRapido(){
+    string origen, destino;
+    cout << "Ingrese el origen del vuelo: " << endl;
+    cin >> origen;
+    cout << "Ingrese el destino del vuelo: " << endl;
+    cin >> destino;
+	Dijkstra dijkstra (origen, destino, 'B');
+	dijkstra.calcular_caminos_minimos(this->vertices,this->vuelos);
+    
+
+}
+
+void Interfaz::buscarVueloMasBarato(){
+    string origen, destino;
+    cout << "Ingrese el origen del vuelo: " << endl;
+    cin >> origen;
+    cout << "Ingrese el destino del vuelo: " << endl;
+    cin >> destino;
+	Dijkstra dijkstra (origen, destino, 'R');
+	dijkstra.calcular_caminos_minimos(this->vertices,this->vuelos);
+    
+};

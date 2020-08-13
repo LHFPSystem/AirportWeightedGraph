@@ -5,6 +5,7 @@
 // Constructor
 Cargador::Cargador(){
 	p_arbol=new BST<string>;
+    
 }
 
 Cargador::~Cargador(){
@@ -30,8 +31,7 @@ void Cargador::cargar_datos() {
         archivo.close();
         delete p_aeropuerto;
     }
-    Lista <punteroVertice> vertices;
-    Lista <punteroVuelo> vuelos;
+    
     ifstream archivo_vuelos ("vuelos.txt");
     string origen;
     string destino;
@@ -48,8 +48,8 @@ void Cargador::cargar_datos() {
                 Vertices* dato = new Vertices(origen);
                 Vuelos* dato_2 = new Vuelos(origen, destino, atoi(costo.c_str()), atof(horas.c_str()));
 
-                vuelos.agregarAlFinal(dato_2);
-                vertices.agregarAlFinal(dato);
+                this->vuelos.agregarAlFinal(dato_2);
+                this->vertices.agregarAlFinal(dato);
         }
     }
         for (int i=0; i<vertices.obtenerCantidadElementos(); i++){
@@ -62,4 +62,12 @@ void Cargador::cargar_datos() {
 
 BST<string>* Cargador::get_p_arbol(){
 	return p_arbol;
+}
+
+Lista <punteroVertice> Cargador::get_vertices(){
+	return this->vertices;
+}
+
+Lista <punteroVuelo> Cargador::get_vuelos(){
+	return this->vuelos;
 }
