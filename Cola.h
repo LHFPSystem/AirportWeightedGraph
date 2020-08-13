@@ -49,7 +49,7 @@ void del_dato();
 
 T pop();
 
-void print_jump(float &cont, int &exp, int&n);
+void print_jump(float &cont, int &exp, int &n);
 
 void print_tree();
 };

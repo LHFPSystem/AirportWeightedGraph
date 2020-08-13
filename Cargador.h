@@ -2,9 +2,6 @@
 #define CARGADOR_H
 #include "Aeropuerto.h"
 #include "BST.h"
-#include "BSTNode.h"
-#include <sstream>
-#include <cstring>
 
 using namespace std;
 
@@ -17,8 +14,7 @@ class Cargador{
 		double superficie;
 		int terminales;
 		int d_nacionales;
-		int d_internacionales;
-		
+		int d_internacionales;		
 		Aeropuerto* p_aeropuerto;
 		BST<string>* p_arbol;
 
@@ -36,7 +32,7 @@ class Cargador{
 
 		void cargar_datos();
 		
-		BST<string>* get_p_arbol();
+		BST<string>* obtener_p_arbol();
 
 };
 

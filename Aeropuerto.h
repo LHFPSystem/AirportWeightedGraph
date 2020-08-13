@@ -2,6 +2,8 @@
 #define AEROPUERTO_H
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <cstring>
 
 using namespace std;
 

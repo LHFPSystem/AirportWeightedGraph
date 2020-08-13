@@ -31,6 +31,6 @@ void Cargador::cargar_datos() {
     }
 }
 
-BST<string>* Cargador::get_p_arbol(){
+BST<string>* Cargador::obtener_p_arbol(){
 	return p_arbol;
 }

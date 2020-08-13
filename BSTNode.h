@@ -1,7 +1,6 @@
-#include <string>
-#include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
+#include "Aeropuerto.h"
 
 //
 // Created by carolina on 3/6/20.
@@ -9,7 +8,6 @@
 
 #ifndef ABB_BSTNODE_H
 #define ABB_BSTNODE_H
-#include "Aeropuerto.h"
 
 template <class T>
 class BSTNode
